@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ * Tokens — lifted verbatim from the :root block of
+ * design-ref/filekit-home.html. That file is the source of truth for
+ * colour, type and geometry; nothing here may drift from it.
+ * ------------------------------------------------------------------ */
+
+/* `static` so every token is emitted even when only plain CSS below reads it.
+ * Without it Tailwind tree-shakes anything no utility references — which is
+ * how --font-sans silently vanished and the page fell back to system fonts. */
+@theme static {
+  --color-bg: #ffffff;
+  --color-surface: #fafafa;
+  --color-surface-2: #f4f4f5;
+  --color-ink: #0f0f10;
+  --color-body: #52525b;
+  --color-muted: #8b8b93;
+  --color-border: #e4e4e7;
+  --color-border-strong: #d4d4d8;
+  --color-accent: #15803d;
+  --color-accent-tint: #f0fdf4;
+
+  --radius-card: 12px;
+  --radius-ctl: 8px;
+
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+
+  /* The reference stylesheet is desktop-first: three max-width queries at
+   * 1080 / 900 / 640. Tailwind's `max-*` variants compile to `width < N`, so
+   * each breakpoint is registered one pixel above the query it mirrors —
+   * `max-lap:` is exactly `@media (max-width: 1080px)`, and so on down. The
+   * default sm/md/lg scale is dropped so nobody reaches for it by accident. */
+  --breakpoint-*: initial;
+  --breakpoint-mob: 641px;
+  --breakpoint-tab: 901px;
+  --breakpoint-lap: 1081px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Base — the handful of element defaults the reference sets that
+ * Tailwind's preflight does not already cover.
+ * ------------------------------------------------------------------ */
+
+@layer base {
+  body {
+    background: var(--color-bg);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-ink);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    line-height: 1.1;
+  }
+
+  /* Preflight ships buttons with `cursor: default` since v4. */
+  button {
+    cursor: pointer;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Components — only the repeated compound from the reference.
+ * ------------------------------------------------------------------ */
+
+@utility eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* ------------------------------------------------------------------ *
+ * Hero demo — the one animation on the page. Values that swap during
+ * the loop are keyed in React, so each new value mounts fresh and
+ * plays this once. Opacity and transform only, no spring, no bounce.
+ * ------------------------------------------------------------------ */
+
+@keyframes demo-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.demo-fade-in {
+  animation: demo-fade-in 200ms ease-out;
+}
+
+/* ------------------------------------------------------------------ *
+ * Marketplace marquee — pure CSS, no animation library. The track
+ * renders the marketplace list twice back to back and slides exactly
+ * one copy-width left, so the loop point is invisible.
+ * ------------------------------------------------------------------ */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 34s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}

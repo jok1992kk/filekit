@@ -1,0 +1,85 @@
+"use client";
+
+import { useState } from "react";
+import { Menu } from "lucide-react";
+
+import { Container } from "@/components/site/Section";
+import { Wordmark } from "@/components/site/Wordmark";
+import { buttonClass } from "@/components/ui/Button";
+import { primaryNav } from "@/lib/brand";
+
+export function Header() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-border bg-white">
+      <Container className="flex h-16 items-center gap-9">
+        <Wordmark />
+
+        <nav className="flex gap-[26px] text-[14.5px] max-tab:hidden">
+          {primaryNav.map((item, index) => (
+            <a
+              key={`${item.href}-${index}`}
+              href={item.href}
+              className="text-body hover:text-ink"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="ml-auto flex items-center gap-[18px] max-tab:hidden">
+          <a href="#" className="text-[14.5px] text-body hover:text-ink">
+            Sign In
+          </a>
+          <a href="#" className={buttonClass({ size: "sm" })}>
+            Get Started
+          </a>
+        </div>
+
+        <button
+          type="button"
+          aria-label="Menu"
+          aria-expanded={open}
+          onClick={() => setOpen((value) => !value)}
+          className="ml-auto hidden h-9 w-9 items-center justify-center rounded-ctl border border-border bg-white max-tab:flex"
+        >
+          <Menu width={16} height={16} strokeWidth={1.5} className="text-ink" />
+        </button>
+      </Container>
+
+      {open ? (
+        <div className="border-b border-border bg-white">
+          {primaryNav.map((item, index) => (
+            <a
+              key={`${item.href}-${index}`}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="block border-b border-border px-6 py-[13px] text-[15px]"
+            >
+              {item.label}
+            </a>
+          ))}
+          <div className="flex gap-[10px] px-6 py-[14px]">
+            <a
+              href="#"
+              className={buttonClass({
+                variant: "ghost",
+                size: "sm",
+                className: "flex-1",
+              })}
+            >
+              Sign In
+            </a>
+            <a
+              href="#"
+              className={buttonClass({ size: "sm", className: "flex-1" })}
+            >
+              Get Started
+            </a>
+          </div>
+        </div>
+      ) : null}
+    </header>
+  );
+}
