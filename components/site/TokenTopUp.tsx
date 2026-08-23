@@ -13,7 +13,7 @@ export function TokenTopUp() {
               tokens anytime — they never expire.
             </p>
           </div>
-          <a href="/tokens" className={buttonClass({ className: "max-mob:w-full" })}>
+          <a href="/signup?next=%2Ftokens" className={buttonClass({ className: "max-mob:w-full" })}>
             View Token Packs
           </a>
         </div>

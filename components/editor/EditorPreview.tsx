@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-import { tools } from "@/lib/tools";
-import { brand } from "@/lib/brand";
+import { runToolAction } from "@/app/actions/tokens";
+import { brand, marketplaces } from "@/lib/brand";
+import { bulkRenameExample, tools } from "@/lib/tools";
 
-export type EditorMode = "static" | "demo";
+export type EditorMode = "static" | "demo" | "interactive";
 
 /** The four demo photos in the filmstrip, plus the one on the stage. */
 const samples = [
@@ -14,25 +17,64 @@ const samples = [
     src: "/generated/wallet-original.webp",
     readySrc: "/generated/wallet-ready.webp",
     alt: "Leather wallet product photo",
+    name: "IMG_4471.HEIC",
+    meta: "3024 × 4032 · 4.1 MB",
   },
   {
     src: "/generated/sweaters-original.webp",
     readySrc: "/generated/sweaters-original.webp",
     alt: "Folded sweaters product photo",
+    name: "IMG_4482.HEIC",
+    meta: "3024 × 4032 · 3.7 MB",
   },
   {
     src: "/generated/ring-original.webp",
     readySrc: "/generated/ring-ready.webp",
     alt: "Gold ring product photo",
+    name: "IMG_4490.HEIC",
+    meta: "3024 × 4032 · 2.9 MB",
   },
   {
     src: "/generated/mug-original.webp",
     readySrc: "/generated/mug-original.webp",
     alt: "Ceramic mug product photo",
+    name: "IMG_4501.HEIC",
+    meta: "3024 × 4032 · 3.2 MB",
   },
 ];
 
-const stage = samples[0];
+/**
+ * Which controls the right-hand panel shows for a given tool. This is
+ * presentation, not product data, so it lives here rather than in
+ * `lib/tools.ts` — that file stays the source of truth for names and prices.
+ */
+type PanelKind = "marketplace" | "compress" | "rename" | "check";
+
+const PANELS: Record<string, PanelKind> = {
+  "marketplace-resize": "marketplace",
+  "smart-crop": "marketplace",
+  "marketplace-pack": "marketplace",
+  "product-centering": "marketplace",
+  "white-background": "marketplace",
+  "background-remover": "marketplace",
+  "image-compressor": "compress",
+  "image-converter": "compress",
+  "bulk-rename": "rename",
+  "quality-checker": "check",
+};
+
+const FORMATS = ["JPG", "PNG", "WebP"] as const;
+const QUALITIES = ["Small", "Balanced", "Best"] as const;
+
+/** Scales a marketplace's target size down to a frame that fits the stage. */
+function fitFrame(width: number, height: number, max: number) {
+  const scale = max / Math.max(width, height);
+  return { w: Math.round(width * scale), h: Math.round(height * scale) };
+}
+
+function sizeLabel(width: number, height: number): string {
+  return `${width.toLocaleString("en-US")} × ${height.toLocaleString("en-US")}`;
+}
 
 /* ------------------------------------------------------------------ *
  * Demo timeline — one 9s loop, expressed as offsets in milliseconds.
@@ -48,6 +90,9 @@ const PROGRESS_MS = 1200;
 const T_PROCESS_END = T_PROCESS_START + PROGRESS_MS;
 const T_READY = 5000;
 const T_RESET = 7500;
+
+/** How long the interactive Process run takes before the result appears. */
+const RUN_MS = 1000;
 
 function useDemoClock(active: boolean) {
   const [t, setT] = useState(0);
@@ -96,10 +141,7 @@ function usePrefersReducedMotion() {
 /** Which output the loop demonstrates this time round — alternates each
  * pass so repeat viewers see the tool handle a landscape and a portrait
  * crop, not the same resize twice. */
-const DEMO_TARGETS = [
-  { name: "Etsy", size: "2000 × 1600", ratio: "5:4", w: 245, h: 196, wMobile: 200, hMobile: 160 },
-  { name: "Mercari", size: "1200 × 1500", ratio: "4:5", w: 196, h: 245, wMobile: 160, hMobile: 200 },
-] as const;
+const DEMO_TARGETS = ["etsy", "mercari"] as const;
 
 function useLoopIndex(t: number, count: number) {
   const [index, setIndex] = useState(0);
@@ -131,35 +173,146 @@ function useInView(ref: React.RefObject<HTMLElement | null>, enabled: boolean) {
   return inView;
 }
 
+type RunStatus = "idle" | "processing" | "ready";
+
 /**
- * The editor, drawn once and reused: framed and inert in the hero
- * (`mode="static"`), or running a scripted 9s demo loop (`mode="demo"`)
- * that resizes one image for a marketplace — CSS/React only, no video.
- * Alternates a landscape and a portrait target each pass (see DEMO_TARGETS)
- * so the crop itself, not just the label, visibly changes on repeat views.
+ * The editor, drawn once and reused (CLAUDE.md): framed and inert in the
+ * hero (`mode="static"`), running a scripted 9s loop (`mode="demo"`), or
+ * fully clickable (`mode="interactive"`).
+ *
+ * Interactive mode keeps the demo loop running until the first click, so the
+ * hero still sells itself to a visitor who never touches it, then hands over
+ * completely the moment someone does.
  */
-export function EditorPreview({ mode = "static" }: { mode?: EditorMode }) {
+export function EditorPreview({
+  mode = "static",
+  signedIn = false,
+  initialBalance = 287,
+}: {
+  mode?: EditorMode;
+  /** Interactive mode only: charge real tokens instead of prompting to sign up. */
+  signedIn?: boolean;
+  initialBalance?: number;
+}) {
+  const router = useRouter();
   const rootRef = useRef<HTMLDivElement>(null);
   const reducedMotion = usePrefersReducedMotion();
-  const inView = useInView(rootRef, mode === "demo");
-  const isDemo = mode === "demo";
-  const active = isDemo && inView && !reducedMotion;
-  const t = useDemoClock(active);
-  const target = DEMO_TARGETS[useLoopIndex(t, DEMO_TARGETS.length)];
+  const isInteractive = mode === "interactive";
 
-  const isTarget = isDemo && t >= T_HIGHLIGHT_START && t < T_RESET;
-  const isHighlighted = isDemo && t >= T_HIGHLIGHT_START && t < T_HIGHLIGHT_END;
-  const isPressed = isDemo && t >= T_PROCESS_START && t < T_PROCESS_END;
-  /* The bar stays mounted the whole loop so the 0→100% fill is a real
-   * transition on a live element rather than a fresh mount at scaleX(1). */
-  const isProgressVisible = isDemo && t >= T_PROCESS_START && t < T_RESET;
-  const isProgressFilled = isProgressVisible;
-  const isReady = isDemo && t >= T_READY && t < T_RESET;
+  /* ---------------- interactive state ---------------- */
+  const [touched, setTouched] = useState(false);
+  const [toolIndex, setToolIndex] = useState(0);
+  const [marketplaceId, setMarketplaceId] = useState<string>("amazon");
+  const [format, setFormat] = useState<string>("JPG");
+  const [quality, setQuality] = useState<string>("Balanced");
+  const [stageIndex, setStageIndex] = useState(0);
+  const [status, setStatus] = useState<RunStatus>("idle");
+  const [spent, setSpent] = useState(0);
+  const [balance, setBalance] = useState(initialBalance);
+  const [shortfall, setShortfall] = useState<number | null>(null);
+  const [runId, setRunId] = useState(0);
 
-  const marketplace = isTarget ? target.name : "Amazon";
-  const outputSize = isTarget ? target.size : "2000 × 2000";
-  const outputRatio = isTarget ? target.ratio : "1:1";
-  const tokenBalance = isReady ? 285 : 287;
+  /* The loop only drives the visuals while nobody has interacted yet. */
+  const demoDriven = mode === "demo" || (isInteractive && !touched);
+  const inView = useInView(rootRef, demoDriven);
+  const loopActive = demoDriven && inView && !reducedMotion;
+  const t = useDemoClock(loopActive);
+  const demoTargetId = DEMO_TARGETS[useLoopIndex(t, DEMO_TARGETS.length)];
+
+  const markTouched = useCallback(() => {
+    setTouched(true);
+  }, []);
+
+  /* ---------------- the view model both modes render ---------------- */
+  const isDemoPhase = demoDriven && loopActive;
+  const inDemoTarget = isDemoPhase && t >= T_HIGHLIGHT_START && t < T_RESET;
+
+  const tool = tools[toolIndex];
+  const panel = PANELS[tool.slug] ?? "marketplace";
+
+  const shownToolIndex = demoDriven ? 0 : toolIndex;
+  const shownTool = tools[shownToolIndex];
+  const shownPanel = demoDriven ? "marketplace" : panel;
+
+  const effectiveMarketplaceId = inDemoTarget ? demoTargetId : marketplaceId;
+  const marketplace =
+    marketplaces.find((item) => item.id === effectiveMarketplaceId) ?? marketplaces[0];
+
+  const desktopFrame = fitFrame(marketplace.width, marketplace.height, 245);
+  const mobileFrame = fitFrame(marketplace.width, marketplace.height, 200);
+
+  const highlighted = isDemoPhase && t >= T_HIGHLIGHT_START && t < T_HIGHLIGHT_END;
+  const pressed = isDemoPhase
+    ? t >= T_PROCESS_START && t < T_PROCESS_END
+    : status === "processing";
+  const progressVisible = isDemoPhase
+    ? t >= T_PROCESS_START && t < T_RESET
+    : status !== "idle";
+  const progressFilled = progressVisible;
+  const ready = isDemoPhase ? t >= T_READY && t < T_RESET : status === "ready";
+
+  const cost = shownTool.cost.tokens;
+  const shownBalance = isDemoPhase ? (ready ? 285 : 287) : balance;
+  const stage = samples[demoDriven ? 0 : stageIndex];
+  const animate = demoDriven;
+
+  /* ---------------- actions ---------------- */
+  const handleProcess = useCallback(async () => {
+    markTouched();
+    if (status === "processing") return;
+
+    setShortfall(null);
+    setStatus("processing");
+    await new Promise((resolve) => setTimeout(resolve, RUN_MS));
+
+    if (signedIn) {
+      const result = await runToolAction(tool.slug, 1);
+      if (!result.ok) {
+        setStatus("idle");
+        setRunId((id) => id + 1);
+        if (result.error === "insufficient_tokens") setShortfall(result.needed);
+        return;
+      }
+      setBalance(result.balance);
+      setSpent(result.cost);
+      // The header's balance pill is server-rendered, so it needs a refresh
+      // to catch up with the spend the action just recorded.
+      router.refresh();
+    } else {
+      setSpent(cost);
+    }
+
+    setStatus("ready");
+  }, [cost, markTouched, router, signedIn, status, tool.slug]);
+
+  const reset = useCallback(() => {
+    setStatus("idle");
+    setShortfall(null);
+    // Remount the progress bar so it starts empty instead of unwinding.
+    setRunId((id) => id + 1);
+  }, []);
+
+  const selectTool = useCallback(
+    (index: number) => {
+      markTouched();
+      setToolIndex(index);
+      reset();
+    },
+    [markTouched, reset],
+  );
+
+  const selectStage = useCallback(
+    (index: number) => {
+      markTouched();
+      setStageIndex(index);
+      reset();
+    },
+    [markTouched, reset],
+  );
+
+  /* ---------------- shared control classes ---------------- */
+  const controlBox =
+    "flex h-8 items-center justify-between rounded-md border bg-white px-2.5 text-[12.5px] text-ink";
 
   return (
     <div
@@ -178,43 +331,56 @@ export function EditorPreview({ mode = "static" }: { mode?: EditorMode }) {
         </div>
         <div className="flex flex-none items-center gap-1 rounded-full border border-border bg-white px-2 py-[3px] text-[10.5px] text-muted">
           <span
-            key={tokenBalance}
-            className={"font-medium text-ink" + (isDemo ? " demo-fade-in" : "")}
+            key={shownBalance}
+            className={"font-medium text-ink" + (animate ? " demo-fade-in" : "")}
           >
-            {tokenBalance}
+            {shownBalance.toLocaleString("en-US")}
           </span>
-          tokens
+          {shownBalance === 1 ? "token" : "tokens"}
         </div>
       </div>
 
       <div className="grid min-h-[392px] grid-cols-[158px_minmax(0,1fr)_216px] max-tab:min-h-0 max-tab:grid-cols-1">
         {/* Left rail — the ten tools */}
-        <div className="border-r border-border bg-white px-2 py-3 max-tab:border-r-0 max-tab:border-b max-tab:border-border max-tab:p-2.5">
+        <div className="min-w-0 border-r border-border bg-white px-2 py-3 max-tab:border-r-0 max-tab:border-b max-tab:border-border max-tab:p-2.5">
           <div className="eyebrow px-2 pb-2 text-[10px] max-tab:hidden">Tools</div>
           <ul className="max-tab:flex max-tab:gap-1.5 max-tab:overflow-x-auto max-tab:[scrollbar-width:none] max-tab:[&::-webkit-scrollbar]:hidden">
-            {tools.map((tool, index) => {
-              const Icon = tool.icon;
-              const active = index === 0;
+            {tools.map((item, index) => {
+              const Icon = item.icon;
+              const active = index === shownToolIndex;
+              const className =
+                "relative flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-[12.5px] tracking-[-0.005em] max-tab:rounded-full max-tab:border max-tab:border-border max-tab:px-[11px] max-tab:py-[5px] max-tab:whitespace-nowrap " +
+                (active
+                  ? "bg-accent-tint font-medium text-ink max-tab:border-accent"
+                  : "text-muted") +
+                (isInteractive && !active ? " hover:bg-surface hover:text-ink" : "");
+              const icon = (
+                <Icon
+                  width={14}
+                  height={14}
+                  strokeWidth={1.4}
+                  className={"flex-none " + (active ? "text-accent opacity-100" : "opacity-80")}
+                />
+              );
+
               return (
-                <li
-                  key={tool.slug}
-                  className={
-                    "relative flex items-center gap-2 rounded-md px-2 py-1.5 text-[12.5px] tracking-[-0.005em] max-tab:rounded-full max-tab:border max-tab:border-border max-tab:px-[11px] max-tab:py-[5px] max-tab:whitespace-nowrap " +
-                    (active
-                      ? "bg-accent-tint font-medium text-ink max-tab:border-accent"
-                      : "text-muted")
-                  }
-                >
-                  <Icon
-                    width={14}
-                    height={14}
-                    strokeWidth={1.4}
-                    className={
-                      "flex-none " +
-                      (active ? "text-accent opacity-100" : "opacity-80")
-                    }
-                  />
-                  {tool.display.railLabel}
+                <li key={item.slug} className="max-tab:flex-none">
+                  {isInteractive ? (
+                    <button
+                      type="button"
+                      onClick={() => selectTool(index)}
+                      aria-pressed={active}
+                      className={className}
+                    >
+                      {icon}
+                      {item.display.railLabel}
+                    </button>
+                  ) : (
+                    <span className={className}>
+                      {icon}
+                      {item.display.railLabel}
+                    </span>
+                  )}
                 </li>
               );
             })}
@@ -224,26 +390,23 @@ export function EditorPreview({ mode = "static" }: { mode?: EditorMode }) {
         {/* Centre — the image on the canvas */}
         <div className="flex min-w-0 flex-col bg-surface">
           <div className="flex h-[34px] items-center justify-between border-b border-border bg-white px-3 text-[11.5px] text-muted">
-            <b className="font-medium text-ink">IMG_4471.HEIC</b>
-            <span>3024 × 4032 · 4.1 MB</span>
+            <b className="font-medium text-ink">{stage.name}</b>
+            <span>{stage.meta}</span>
           </div>
           <div className="flex flex-1 items-center justify-center p-[22px]">
-            {isDemo ? (
+            {shownPanel === "marketplace" ? (
               <div
                 className="grid place-items-center h-[var(--stage-h)] max-mob:h-[var(--stage-h-m)]"
                 style={
                   {
-                    "--stage-h": `${Math.max(196, target.h)}px`,
-                    "--stage-h-m": `${Math.max(160, target.hMobile)}px`,
+                    "--stage-h": `${Math.max(196, desktopFrame.h)}px`,
+                    "--stage-h-m": `${Math.max(160, mobileFrame.h)}px`,
                   } as React.CSSProperties
                 }
               >
                 <div
                   className="relative col-start-1 row-start-1 h-[196px] w-[196px] overflow-hidden rounded-ctl border border-border bg-white max-mob:h-40 max-mob:w-40"
-                  style={{
-                    opacity: isReady ? 0 : 1,
-                    transition: "opacity 200ms ease-out",
-                  }}
+                  style={{ opacity: ready ? 0 : 1, transition: "opacity 200ms ease-out" }}
                 >
                   <Image
                     src={stage.src}
@@ -258,11 +421,11 @@ export function EditorPreview({ mode = "static" }: { mode?: EditorMode }) {
                   className="relative col-start-1 row-start-1 overflow-hidden rounded-ctl border border-border bg-white h-[var(--ready-h)] w-[var(--ready-w)] max-mob:h-[var(--ready-h-m)] max-mob:w-[var(--ready-w-m)]"
                   style={
                     {
-                      "--ready-w": `${target.w}px`,
-                      "--ready-h": `${target.h}px`,
-                      "--ready-w-m": `${target.wMobile}px`,
-                      "--ready-h-m": `${target.hMobile}px`,
-                      opacity: isReady ? 1 : 0,
+                      "--ready-w": `${desktopFrame.w}px`,
+                      "--ready-h": `${desktopFrame.h}px`,
+                      "--ready-w-m": `${mobileFrame.w}px`,
+                      "--ready-h-m": `${mobileFrame.h}px`,
+                      opacity: ready ? 1 : 0,
                       transition: "opacity 200ms ease-out",
                     } as React.CSSProperties
                   }
@@ -283,141 +446,339 @@ export function EditorPreview({ mode = "static" }: { mode?: EditorMode }) {
                   alt={stage.alt}
                   fill
                   sizes="196px"
-                  priority
                   className="object-cover"
                 />
               </div>
             )}
           </div>
           <div className="flex gap-2 border-t border-border bg-white px-3 py-2.5">
-            {samples.map((sample, index) => (
-              <div
-                key={sample.src}
-                className={
-                  "relative h-10 w-10 overflow-hidden rounded-md border bg-surface " +
-                  (index === 0
-                    ? "border-accent shadow-[0_0_0_2px_var(--color-accent-tint)]"
-                    : "border-border")
-                }
-              >
-                <Image
-                  src={sample.src}
-                  alt=""
-                  fill
-                  sizes="40px"
-                  className="object-cover"
-                />
-              </div>
-            ))}
+            {samples.map((sample, index) => {
+              const active = index === (demoDriven ? 0 : stageIndex);
+              const className =
+                "relative h-10 w-10 overflow-hidden rounded-md border bg-surface " +
+                (active
+                  ? "border-accent shadow-[0_0_0_2px_var(--color-accent-tint)]"
+                  : "border-border");
+
+              return isInteractive ? (
+                <button
+                  key={sample.src}
+                  type="button"
+                  onClick={() => selectStage(index)}
+                  aria-label={sample.alt}
+                  aria-pressed={active}
+                  className={className}
+                >
+                  <Image src={sample.src} alt="" fill sizes="40px" className="object-cover" />
+                </button>
+              ) : (
+                <div key={sample.src} className={className}>
+                  <Image src={sample.src} alt="" fill sizes="40px" className="object-cover" />
+                </div>
+              );
+            })}
           </div>
         </div>
 
         {/* Right — settings for the active tool */}
-        <div className="flex flex-col gap-3.5 border-l border-border bg-white p-3.5 max-tab:border-l-0 max-tab:border-t max-tab:border-border">
-          <div>
-            <span className="eyebrow mb-1.5 block text-[10px]">Marketplace</span>
-            <div
-              className="flex h-8 items-center justify-between rounded-md border bg-white px-2.5 text-[12.5px] text-ink"
-              style={{
-                borderColor: isHighlighted
-                  ? "var(--color-accent)"
-                  : "var(--color-border)",
-                boxShadow: isHighlighted
-                  ? "0 0 0 2px var(--color-accent-tint)"
-                  : "none",
-                transition: "border-color 200ms ease-out, box-shadow 200ms ease-out",
-              }}
-            >
-              <span key={marketplace} className={isDemo ? "demo-fade-in" : undefined}>
-                {marketplace}
-              </span>
-              <span className="text-[10px] text-muted">▾</span>
-            </div>
-          </div>
-
-          <div>
-            <span className="eyebrow mb-1.5 block text-[10px]">Format</span>
-            <div className="flex overflow-hidden rounded-md border border-border">
-              {["JPG", "PNG", "WebP"].map((format, index) => (
-                <div
-                  key={format}
-                  className={
-                    "flex-1 border-r border-border py-1.5 text-center text-[12px] last:border-r-0 " +
-                    (index === 0
-                      ? "bg-surface-2 font-medium text-ink"
-                      : "text-muted")
-                  }
-                >
-                  {format}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <span className="eyebrow mb-1.5 block text-[10px]">Output</span>
-            <div className="flex items-center justify-between rounded-md border border-border px-2.5 py-2 text-[12.5px] text-ink">
-              <span key={outputSize} className={isDemo ? "demo-fade-in" : undefined}>
-                {outputSize}
-              </span>{" "}
-              <small
-                key={outputRatio}
-                className={
-                  "text-[11px] text-muted" + (isDemo ? " demo-fade-in" : "")
-                }
-              >
-                {outputRatio}
-              </small>
-            </div>
-          </div>
-
-          <div className="flex items-baseline justify-between border-t border-border pt-3 text-[12.5px] text-muted">
-            Estimated cost{" "}
-            <b className="text-[13px] font-medium text-accent">2 tokens</b>
-          </div>
-
-          {isDemo ? (
+        <div className="flex min-w-0 flex-col gap-3.5 border-l border-border bg-white p-3.5 max-tab:border-l-0 max-tab:border-t max-tab:border-border">
+          {shownPanel === "marketplace" ? (
             <>
-              <div className="flex h-4 items-center">
-                {isReady ? (
-                  <span className="demo-fade-in text-[12px] font-medium text-accent">
-                    Ready — 2 tokens used
-                  </span>
-                ) : null}
-              </div>
-              <div className="mt-auto flex flex-col gap-2 max-tab:mt-1">
-                <button
-                  type="button"
-                  className="h-[34px] w-full rounded-md border-0 bg-[#111] text-[12.5px] font-medium text-white max-tab:h-[38px]"
-                  style={{
-                    transform: isPressed ? "scale(0.97)" : "scale(1)",
-                    transition: "transform 200ms ease-out",
-                  }}
-                >
-                  Process Image
-                </button>
-                <div className="h-1 w-full overflow-hidden rounded-full bg-surface-2">
+              <div>
+                <span className="eyebrow mb-1.5 block text-[10px]">Marketplace</span>
+                {isInteractive ? (
+                  <div className="relative">
+                    <select
+                      /* Follows the loop until the first interaction, so the
+                       * field and the Output size never disagree. */
+                      value={effectiveMarketplaceId}
+                      onChange={(event) => {
+                        markTouched();
+                        setMarketplaceId(event.target.value);
+                        reset();
+                      }}
+                      aria-label="Marketplace"
+                      className={
+                        controlBox +
+                        " w-full appearance-none border-border pr-7 outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-tint)]"
+                      }
+                    >
+                      {marketplaces.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-muted">
+                      ▾
+                    </span>
+                  </div>
+                ) : (
                   <div
-                    className="h-full w-full rounded-full bg-accent"
+                    className={controlBox}
                     style={{
-                      transform: `scaleX(${isProgressFilled ? 1 : 0})`,
-                      transformOrigin: "left",
-                      opacity: isProgressVisible ? 1 : 0,
-                      transition: `transform ${PROGRESS_MS}ms linear, opacity 200ms ease-out`,
+                      borderColor: highlighted ? "var(--color-accent)" : "var(--color-border)",
+                      boxShadow: highlighted ? "0 0 0 2px var(--color-accent-tint)" : "none",
+                      transition:
+                        "border-color 200ms ease-out, box-shadow 200ms ease-out",
                     }}
-                  />
+                  >
+                    <span
+                      key={marketplace.name}
+                      className={animate ? "demo-fade-in" : undefined}
+                    >
+                      {marketplace.name}
+                    </span>
+                    <span className="text-[10px] text-muted">▾</span>
+                  </div>
+                )}
+              </div>
+
+              <FormatRow
+                value={format}
+                interactive={isInteractive}
+                onChange={(value) => {
+                  markTouched();
+                  setFormat(value);
+                  reset();
+                }}
+              />
+
+              <div>
+                <span className="eyebrow mb-1.5 block text-[10px]">Output</span>
+                <div className="flex items-center justify-between rounded-md border border-border px-2.5 py-2 text-[12.5px] text-ink">
+                  <span
+                    key={`${marketplace.width}x${marketplace.height}`}
+                    className={animate ? "demo-fade-in" : undefined}
+                  >
+                    {sizeLabel(marketplace.width, marketplace.height)}
+                  </span>{" "}
+                  <small
+                    key={marketplace.ratio}
+                    className={"text-[11px] text-muted" + (animate ? " demo-fade-in" : "")}
+                  >
+                    {marketplace.ratio}
+                  </small>
                 </div>
               </div>
             </>
-          ) : (
-            <button
-              type="button"
-              className="mt-auto h-[34px] w-full rounded-md border-0 bg-[#111] text-[12.5px] font-medium text-white max-tab:mt-1 max-tab:h-[38px]"
+          ) : null}
+
+          {shownPanel === "compress" ? (
+            <>
+              <FormatRow
+                value={format}
+                interactive={isInteractive}
+                onChange={(value) => {
+                  markTouched();
+                  setFormat(value);
+                  reset();
+                }}
+              />
+
+              <div>
+                <span className="eyebrow mb-1.5 block text-[10px]">Quality</span>
+                <div className="flex overflow-hidden rounded-md border border-border">
+                  {QUALITIES.map((item) => {
+                    const active = item === quality;
+                    const className =
+                      "flex-1 border-r border-border py-1.5 text-center text-[12px] last:border-r-0 " +
+                      (active ? "bg-surface-2 font-medium text-ink" : "text-muted");
+                    return isInteractive ? (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => {
+                          markTouched();
+                          setQuality(item);
+                          reset();
+                        }}
+                        className={className}
+                      >
+                        {item}
+                      </button>
+                    ) : (
+                      <div key={item} className={className}>
+                        {item}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <span className="eyebrow mb-1.5 block text-[10px]">Estimated size</span>
+                <div className="flex items-center justify-between rounded-md border border-border px-2.5 py-2 text-[12.5px] text-ink">
+                  {quality === "Small" ? "310 KB" : quality === "Best" ? "1.1 MB" : "540 KB"}
+                  <small className="text-[11px] text-muted">from 4.1 MB</small>
+                </div>
+              </div>
+            </>
+          ) : null}
+
+          {shownPanel === "rename" ? (
+            <>
+              <div>
+                <span className="eyebrow mb-1.5 block text-[10px]">Pattern</span>
+                <div className="rounded-md border border-border px-2.5 py-2 text-[12.5px] text-ink">
+                  {"{product}-{index}"}
+                </div>
+              </div>
+              <div>
+                <span className="eyebrow mb-1.5 block text-[10px]">Preview</span>
+                <div className="rounded-md border border-border px-2.5 py-2 text-[12px] text-body">
+                  {bulkRenameExample}
+                </div>
+              </div>
+            </>
+          ) : null}
+
+          {shownPanel === "check" ? (
+            <div>
+              <span className="eyebrow mb-1.5 block text-[10px]">Checks</span>
+              <ul className="flex flex-col gap-1.5 text-[12.5px] text-body">
+                {["Resolution", "Aspect ratio", "File size", "Colour profile"].map((check) => (
+                  <li key={check} className="flex items-center justify-between">
+                    {check}
+                    <span className="text-[11px] text-muted">on</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+
+          <div className="flex items-baseline justify-between border-t border-border pt-3 text-[12.5px] text-muted">
+            Estimated cost{" "}
+            <b className="text-[13px] font-medium text-accent">
+              {cost} {cost === 1 ? "token" : "tokens"}
+            </b>
+          </div>
+
+          {/* Status line — success, or the reason the run did not happen. */}
+          <div className="flex min-h-4 items-center">
+            {shortfall !== null ? (
+              <span className="text-[12px] text-ink">
+                You need {shortfall} more {shortfall === 1 ? "token" : "tokens"}.
+              </span>
+            ) : ready ? (
+              <span className={"text-[12px] font-medium text-accent" + (animate ? " demo-fade-in" : "")}>
+                Ready — {isDemoPhase ? 2 : spent} {(isDemoPhase ? 2 : spent) === 1 ? "token" : "tokens"} used
+              </span>
+            ) : null}
+          </div>
+
+          {/* Post-run actions: the signed-out path is the sign-up nudge. */}
+          {isInteractive && ready ? (
+            signedIn ? (
+              <div className="flex flex-col gap-2">
+                <a
+                  href={shownPanel === "marketplace" ? stage.readySrc : stage.src}
+                  download
+                  className="flex h-[34px] w-full items-center justify-center rounded-md bg-[#111] text-[12.5px] font-medium text-white hover:bg-black"
+                >
+                  Download
+                </a>
+                <button
+                  type="button"
+                  onClick={reset}
+                  className="h-[34px] w-full rounded-md border border-border bg-white text-[12.5px] font-medium text-ink hover:border-border-strong"
+                >
+                  Process another
+                </button>
+              </div>
+            ) : (
+              <div className="rounded-md border border-border bg-surface p-3">
+                <p className="text-[12.5px] leading-[1.5] text-body">
+                  Create a free account to download this file.
+                </p>
+                <Link
+                  href="/signup"
+                  className="mt-2.5 flex h-[34px] w-full items-center justify-center rounded-md bg-[#111] text-[12.5px] font-medium text-white hover:bg-black"
+                >
+                  Create free account
+                </Link>
+              </div>
+            )
+          ) : null}
+
+          {shortfall !== null ? (
+            <Link
+              href="/tokens"
+              className="flex h-[34px] w-full items-center justify-center rounded-md border border-border bg-white text-[12.5px] font-medium text-ink hover:border-border-strong"
             >
-              Process Image
-            </button>
-          )}
+              Buy Tokens
+            </Link>
+          ) : null}
+
+          {/* The demo keeps the button on screen through its ready phase; only
+            * a real interactive run swaps it for Download / Process another. */}
+          {!(isInteractive && ready) ? (
+            <div className="mt-auto flex flex-col gap-2 max-tab:mt-1">
+              <button
+                type="button"
+                onClick={isInteractive ? handleProcess : undefined}
+                disabled={status === "processing"}
+                className="h-[34px] w-full rounded-md border-0 bg-[#111] text-[12.5px] font-medium text-white max-tab:h-[38px] disabled:opacity-70"
+                style={{
+                  transform: pressed ? "scale(0.97)" : "scale(1)",
+                  transition: "transform 200ms ease-out",
+                }}
+              >
+                {status === "processing" ? "Processing…" : "Process Image"}
+              </button>
+              <div key={runId} className="h-1 w-full overflow-hidden rounded-full bg-surface-2">
+                <div
+                  className="h-full w-full rounded-full bg-accent"
+                  style={{
+                    transform: `scaleX(${progressFilled ? 1 : 0})`,
+                    transformOrigin: "left",
+                    opacity: progressVisible ? 1 : 0,
+                    transition: `transform ${isDemoPhase ? PROGRESS_MS : RUN_MS}ms linear, opacity 200ms ease-out`,
+                  }}
+                />
+              </div>
+            </div>
+          ) : null}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function FormatRow({
+  value,
+  interactive,
+  onChange,
+}: {
+  value: string;
+  interactive: boolean;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div>
+      <span className="eyebrow mb-1.5 block text-[10px]">Format</span>
+      <div className="flex overflow-hidden rounded-md border border-border">
+        {FORMATS.map((item) => {
+          const active = item === value;
+          const className =
+            "flex-1 border-r border-border py-1.5 text-center text-[12px] last:border-r-0 " +
+            (active ? "bg-surface-2 font-medium text-ink" : "text-muted");
+
+          return interactive ? (
+            <button
+              key={item}
+              type="button"
+              onClick={() => onChange(item)}
+              className={className}
+            >
+              {item}
+            </button>
+          ) : (
+            <div key={item} className={className}>
+              {item}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { EditorPreview } from "@/components/editor/EditorPreview";
 import { Container } from "@/components/site/Section";
 import { buttonClass } from "@/components/ui/Button";
@@ -15,9 +17,9 @@ export function Hero() {
             Shopify and eBay — without doing the same work over and over.
           </p>
           <div className="mt-[30px] flex flex-wrap gap-3 max-mob:[&>a]:flex-1">
-            <a href="#" className={buttonClass()}>
+            <Link href="/signup" className={buttonClass()}>
               Prepare Your Photos
-            </a>
+            </Link>
             <a href="#how" className={buttonClass({ variant: "ghost" })}>
               See How It Works
             </a>
@@ -28,8 +30,9 @@ export function Hero() {
           </p>
         </div>
 
+        {/* Plays its own loop until the visitor clicks, then it is theirs. */}
         <div className="mr-[-140px] max-lap:mr-0">
-          <EditorPreview mode="demo" />
+          <EditorPreview mode="interactive" />
         </div>
       </Container>
     </section>

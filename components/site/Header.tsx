@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Menu } from "lucide-react";
 
 import { Container } from "@/components/site/Section";
@@ -29,12 +30,12 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-[18px] max-tab:hidden">
-          <a href="#" className="text-[14.5px] text-body hover:text-ink">
+          <Link href="/signin" className="text-[14.5px] text-body hover:text-ink">
             Sign In
-          </a>
-          <a href="#" className={buttonClass({ size: "sm" })}>
+          </Link>
+          <Link href="/signup" className={buttonClass({ size: "sm" })}>
             Get Started
-          </a>
+          </Link>
         </div>
 
         <button
@@ -61,8 +62,9 @@ export function Header() {
             </a>
           ))}
           <div className="flex gap-[10px] px-6 py-[14px]">
-            <a
-              href="#"
+            <Link
+              href="/signin"
+              onClick={() => setOpen(false)}
               className={buttonClass({
                 variant: "ghost",
                 size: "sm",
@@ -70,13 +72,14 @@ export function Header() {
               })}
             >
               Sign In
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/signup"
+              onClick={() => setOpen(false)}
               className={buttonClass({ size: "sm", className: "flex-1" })}
             >
               Get Started
-            </a>
+            </Link>
           </div>
         </div>
       ) : null}

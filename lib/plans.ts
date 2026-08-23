@@ -113,3 +113,19 @@ export const pricingFineprint =
 export const freeTokensLine = "Every account starts with 25 free tokens.";
 
 export const SIGNUP_FREE_TOKENS = 25;
+
+export function getPlan(id: PlanId): Plan | undefined {
+  return plans.find((plan) => plan.id === id);
+}
+
+/** How many subscription tokens a plan grants each cycle. `free` gets the
+ * signup bonus and nothing more, so its allowance is that same number. */
+export function monthlyAllowanceFor(plan: PlanId | "free"): number {
+  if (plan === "free") return SIGNUP_FREE_TOKENS;
+  return getPlan(plan)?.monthlyTokens ?? SIGNUP_FREE_TOKENS;
+}
+
+export function planLabel(plan: PlanId | "free"): string {
+  if (plan === "free") return "Free";
+  return getPlan(plan)?.name ?? "Free";
+}

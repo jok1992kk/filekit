@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
-import { Header } from "@/components/site/Header";
 import { brand } from "@/lib/brand";
 
 import "./globals.css";
@@ -41,12 +40,11 @@ export default function RootLayout({
   // The font variable goes on <html>, not <body>: --font-sans is declared on
   // :root and references it, and a var() that resolves nowhere makes the whole
   // declaration invalid — which silently drops the page to system fonts.
+  // Each route group brings its own chrome: the marketing header in (site),
+  // a bare centred card in (auth), the signed-in app header in (app).
   return (
     <html lang="en" className={inter.variable}>
-      <body>
-        <Header />
-        <main>{children}</main>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
