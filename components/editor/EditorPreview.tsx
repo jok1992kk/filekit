@@ -4,15 +4,32 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 import { tools } from "@/lib/tools";
+import { brand } from "@/lib/brand";
 
 export type EditorMode = "static" | "demo";
 
 /** The four demo photos in the filmstrip, plus the one on the stage. */
 const samples = [
-  { src: "/samples/leather-wallet.jpg", alt: "Leather wallet product photo" },
-  { src: "/samples/folded-sweaters.jpg", alt: "" },
-  { src: "/samples/gold-ring.jpg", alt: "" },
-  { src: "/samples/ceramic-mug.jpg", alt: "" },
+  {
+    src: "/generated/wallet-original.webp",
+    readySrc: "/generated/wallet-ready.webp",
+    alt: "Leather wallet product photo",
+  },
+  {
+    src: "/generated/sweaters-original.webp",
+    readySrc: "/generated/sweaters-original.webp",
+    alt: "Folded sweaters product photo",
+  },
+  {
+    src: "/generated/ring-original.webp",
+    readySrc: "/generated/ring-ready.webp",
+    alt: "Gold ring product photo",
+  },
+  {
+    src: "/generated/mug-original.webp",
+    readySrc: "/generated/mug-original.webp",
+    alt: "Ceramic mug product photo",
+  },
 ];
 
 const stage = samples[0];
@@ -157,7 +174,7 @@ export function EditorPreview({ mode = "static" }: { mode?: EditorMode }) {
           <i className="block h-[9px] w-[9px] rounded-full bg-[#E4E4E7]" />
         </div>
         <div className="flex-1 text-center text-[11.5px] tracking-[-0.01em] text-muted">
-          FileKit — Editor
+          {brand.name} — Editor
         </div>
         <div className="flex flex-none items-center gap-1 rounded-full border border-border bg-white px-2 py-[3px] text-[10.5px] text-muted">
           <span
@@ -251,11 +268,11 @@ export function EditorPreview({ mode = "static" }: { mode?: EditorMode }) {
                   }
                 >
                   <Image
-                    src={stage.src}
+                    src={stage.readySrc}
                     alt={stage.alt}
                     fill
                     sizes="245px"
-                    className="object-cover"
+                    className="object-contain p-[7%]"
                   />
                 </div>
               </div>

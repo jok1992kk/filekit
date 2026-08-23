@@ -1,4 +1,4 @@
-# FileKit — SPEC.md
+# WareSnap — SPEC.md
 
 Справочник данных и текстов. Читай нужный раздел по мере необходимости, не весь файл целиком.
 
@@ -9,15 +9,15 @@
 ```ts
 // lib/brand.ts
 export const brand = {
-  name: "FileKit",
-  domain: "filekit.app",           // ВНИМАНИЕ: filekit.app занят, домен ещё не выбран
-  tagline: "Upload once. Sell everywhere.",
+  name: "WareSnap",
+  domain: "waresnap.app",          // Домен ещё нужно приобрести и проверить
+  tagline: "Every product photo, ready to list.",
   description:
     "Resize, optimize and prepare product photos for Amazon, Etsy, Shopify and eBay.",
 };
 ```
 
-Логотип: текстовый wordmark `FileKit`, weight 600, tracking -0.03em, слева — простая монохромная марка 20×20
+Логотип: текстовый wordmark `WareSnap`, weight 600, tracking -0.03em, слева — две перекрывающиеся рамки 22×22: исходный кадр и готовый листинг.
 (квадрат со скруглением 6px, внутри — тонкий контур «кадра»/рамки). Без иконок-камер и без градиентов.
 
 ---
@@ -147,7 +147,7 @@ marquee и Marketplace Pack, не перечисляются поимённо в
 Порядок секций (и всё, больше ничего не добавлять):
 
 **Header** (sticky, высота 64px, нижняя граница 1px, фон белый)
-`FileKit` · Tools · Pricing · Examples · FAQ · — · `Sign In` (текст) · `Get Started` (primary)
+`WareSnap` · Tools · Pricing · Examples · FAQ · — · `Sign In` (текст) · `Get Started` (primary)
 Мобильный: бургер → простой sheet-меню.
 
 **Hero**
@@ -175,7 +175,7 @@ marquee и Marketplace Pack, не перечисляются поимённо в
 
 **Marketplace Pack** — крупная секция:
 - H2: `One upload. Every storefront.`
-- Текст (динамический, вставляет `marketplaces.length`): `Stop resizing and exporting the same product photos one marketplace at a time — FileKit cuts a set for all 9.`
+- Текст (динамический, вставляет `marketplaces.length`): `Stop resizing and exporting the same product photos one marketplace at a time — WareSnap cuts a set for all 9.`
 - Визуал: слева `Original`, стрелка, справа сетка (3×3 на десктопе, 2 кол. на планшете, 1 на мобиле) с превью **всех** площадок из `lib/brand.ts` и подписями размеров.
 
 **Before / After** — 3 реальных товара (кошелёк, косметика, кольцо), ряд: `Original` → `Centered` → `White background` → `Marketplace ready`. Подписи мелкие, серые. На мобиле — горизонтальный скролл.
@@ -199,7 +199,7 @@ marquee и Marketplace Pack, не перечисляются поимённо в
 Product: Tools · Pricing · Examples · FAQ
 Company: Terms · Privacy
 Account: Sign In · Create Account
-`© 2026 FileKit. All rights reserved.`
+`© 2026 WareSnap. All rights reserved.`
 
 ---
 
@@ -208,10 +208,10 @@ Account: Sign In · Create Account
 1. **What are tokens?** — Tokens are used when you process product images. Different tools use different amounts depending on the work involved.
 2. **Do purchased tokens expire?** — No. Extra token packs never expire. Your plan's monthly tokens are used first.
 3. **What happens to my monthly tokens?** — Your plan's included tokens refresh at the start of every billing month.
-4. **Can I use FileKit for Amazon and Etsy?** — Yes. FileKit prepares images for Amazon, Etsy, Shopify and eBay from a single upload.
+4. **Can I use WareSnap for Amazon and Etsy?** — Yes. WareSnap prepares images for Amazon, Etsy, Shopify and eBay from a single upload.
 5. **Can I cancel anytime?** — Yes. Your plan stays active until the end of the billing period.
-6. **Do I need design experience?** — No. Pick your marketplace and FileKit handles sizes, ratios and formats.
-7. **Does FileKit generate product images?** — No. FileKit is built to prepare and optimize the photos you already have.
+6. **Do I need design experience?** — No. Pick your marketplace and WareSnap handles sizes, ratios and formats.
+7. **Does WareSnap generate product images?** — No. WareSnap is built to prepare and optimize the photos you already have.
 8. **What image formats are supported?** — JPG, PNG, WebP and HEIC.
 
 ---
@@ -234,7 +234,7 @@ Account: Sign In · Create Account
 
 ## 9. Dashboard
 
-Header приложения: `FileKit` · Dashboard · Tools · History · Pricing · — · `287 tokens` (пилюля, кликабельна → /tokens) · avatar-меню (Account, Billing, Sign out).
+Header приложения: `WareSnap` · Dashboard · Tools · History · Pricing · — · `287 tokens` (пилюля, кликабельна → /tokens) · avatar-меню (Account, Billing, Sign out).
 
 Контент:
 1. Приветствие: `Good morning, {first name}` (по времени суток), под ним: `{N} tokens available` + кнопка `Buy Tokens`.

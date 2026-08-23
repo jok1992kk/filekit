@@ -5,7 +5,7 @@ import { Hero } from "@/components/site/Hero";
 import { MarketplacePack } from "@/components/site/MarketplacePack";
 import { MarketplaceRow } from "@/components/site/MarketplaceRow";
 import { Pricing } from "@/components/site/Pricing";
-import { Testimonials } from "@/components/site/Testimonials";
+import { ProofPoints } from "@/components/site/ProofPoints";
 import { TokenTopUp } from "@/components/site/TokenTopUp";
 import { ToolsGrid } from "@/components/site/ToolsGrid";
 import { TrustStrip } from "@/components/site/TrustStrip";
@@ -21,7 +21,7 @@ export default function HomePage() {
       <ToolsGrid />
       <MarketplacePack />
       <BeforeAfter />
-      <Testimonials />
+      <ProofPoints />
       <Pricing />
       <TokenTopUp />
       <FAQ />

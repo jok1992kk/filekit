@@ -2,11 +2,13 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 import { Container, Section, SectionHead } from "@/components/site/Section";
-import { marketplaces } from "@/lib/brand";
+import { brand, marketplaces } from "@/lib/brand";
 
-/** One sample photo stands in for every marketplace preview — no real
- * processing happens, see CLAUDE.md. */
-const sample = { src: "/samples/wooden-bowls.jpg", alt: "Wooden bowls product photo" };
+const sample = {
+  originalSrc: "/generated/bowls-original.webp",
+  readySrc: "/generated/bowls-ready.webp",
+  alt: "Wooden bowls product photo",
+};
 
 export function MarketplacePack() {
   return (
@@ -15,14 +17,14 @@ export function MarketplacePack() {
         <SectionHead
           eyebrow="Marketplace Pack"
           title="One upload. Every storefront."
-          lead={`Stop resizing and exporting the same product photos one marketplace at a time — FileKit cuts a set for all ${marketplaces.length}.`}
+          lead={`Stop resizing and exporting the same product photos one marketplace at a time — ${brand.name} cuts a set for all ${marketplaces.length}.`}
         />
 
         <div className="grid grid-cols-[minmax(0,200px)_auto_minmax(0,1fr)] items-center gap-10 max-tab:grid-cols-1 max-tab:justify-items-center max-tab:gap-6">
           <figure className="flex flex-col items-center gap-3">
             <div className="relative h-[180px] w-[180px] overflow-hidden rounded-card border border-border bg-white">
               <Image
-                src={sample.src}
+                src={sample.originalSrc}
                 alt={sample.alt}
                 fill
                 sizes="180px"
@@ -50,11 +52,11 @@ export function MarketplacePack() {
                   style={{ aspectRatio: `${marketplace.width} / ${marketplace.height}` }}
                 >
                   <Image
-                    src={sample.src}
+                    src={sample.readySrc}
                     alt=""
                     fill
                     sizes="190px"
-                    className="object-cover"
+                    className="object-contain p-[8%]"
                   />
                 </div>
                 <figcaption className="text-[12.5px] text-muted">

@@ -1,4 +1,4 @@
-# FileKit — CLAUDE.md
+# WareSnap — CLAUDE.md
 
 > Постоянный контекст проекта. Держи этот файл коротким. Детали продукта — в `SPEC.md`, пошаговые задачи — в `CODE-PROMPTS.md`.
 

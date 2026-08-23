@@ -4,10 +4,10 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 import { Container, Section, SectionHead } from "@/components/site/Section";
+import { brand } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
-/** Verbatim from SPEC.md §7. */
-const faqs = [
+const getFaqs = (brandName: string) => [
   {
     q: "What are tokens?",
     a: "Tokens are used when you process product images. Different tools use different amounts depending on the work involved.",
@@ -21,8 +21,8 @@ const faqs = [
     a: "Your plan's included tokens refresh at the start of every billing month.",
   },
   {
-    q: "Can I use FileKit for Amazon and Etsy?",
-    a: "Yes. FileKit prepares images for Amazon, Etsy, Shopify, eBay and other marketplaces from a single upload.",
+    q: `Can I use ${brandName} for Amazon and Etsy?`,
+    a: `Yes. ${brandName} prepares images for Amazon, Etsy, Shopify, eBay and other marketplaces from a single upload.`,
   },
   {
     q: "Can I cancel anytime?",
@@ -30,11 +30,11 @@ const faqs = [
   },
   {
     q: "Do I need design experience?",
-    a: "No. Pick your marketplace and FileKit handles sizes, ratios and formats.",
+    a: `No. Pick your marketplace and ${brandName} handles sizes, ratios and formats.`,
   },
   {
-    q: "Does FileKit generate product images?",
-    a: "No. FileKit is built to prepare and optimize the photos you already have.",
+    q: `Does ${brandName} generate product images?`,
+    a: `No. ${brandName} is built to prepare and optimize the photos you already have.`,
   },
   {
     q: "What image formats are supported?",
@@ -44,6 +44,7 @@ const faqs = [
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const faqs = getFaqs(brand.name);
 
   return (
     <Section id="faq" className="pt-0 max-mob:pt-0">

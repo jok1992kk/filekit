@@ -4,29 +4,30 @@ import { ChevronRight } from "lucide-react";
 import { Container, Section, SectionHead } from "@/components/site/Section";
 import { cn } from "@/lib/utils";
 
-/** Same photo, different padding on a white canvas — no real processing
- * happens at any step, see CLAUDE.md. */
 const frames = [
-  { label: "Original", canvas: false, padding: "" },
-  { label: "Centered", canvas: true, padding: "p-6 max-mob:p-5" },
-  { label: "White background", canvas: true, padding: "p-3 max-mob:p-2.5" },
-  { label: "Marketplace ready", canvas: true, padding: "p-0" },
+  { label: "Original", source: "original", canvas: false, padding: "", fit: "object-cover" },
+  { label: "Clean background", source: "ready", canvas: true, padding: "p-4", fit: "object-contain" },
+  { label: "Safe margins", source: "ready", canvas: true, padding: "p-6 max-mob:p-5", fit: "object-contain" },
+  { label: "Marketplace ready", source: "ready", canvas: true, padding: "p-2", fit: "object-contain" },
 ] as const;
 
 const products = [
   {
     name: "Leather wallet",
-    src: "/samples/leather-wallet.jpg",
+    originalSrc: "/generated/wallet-original.webp",
+    readySrc: "/generated/wallet-ready.webp",
     alt: "Leather wallet product photo",
   },
   {
     name: "Cosmetic tube",
-    src: "/samples/cosmetic-tube.jpg",
+    originalSrc: "/generated/cosmetic-original.webp",
+    readySrc: "/generated/cosmetic-ready.webp",
     alt: "Cosmetic tube product photo",
   },
   {
     name: "Gold ring",
-    src: "/samples/gold-ring.jpg",
+    originalSrc: "/generated/ring-original.webp",
+    readySrc: "/generated/ring-ready.webp",
     alt: "Gold ring product photo",
   },
 ];
@@ -60,11 +61,11 @@ export function BeforeAfter() {
                         <div className={cn("absolute inset-0", frame.padding)}>
                           <div className="relative h-full w-full overflow-hidden rounded-[4px]">
                             <Image
-                              src={product.src}
+                              src={frame.source === "original" ? product.originalSrc : product.readySrc}
                               alt={frame.label === "Original" ? product.alt : ""}
                               fill
                               sizes="150px"
-                              className="object-cover"
+                              className={frame.fit}
                             />
                           </div>
                         </div>

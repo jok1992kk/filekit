@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FileKit — Product photos ready for every marketplace</title>
+<title>WareSnap — Product photos ready for every marketplace</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
@@ -168,6 +168,7 @@ h1.hero-title{font-size:clamp(38px,4.6vw,58px);line-height:1.03;letter-spacing:-
 /* ---------- Testimonials ---------- */
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .testi{border:1px solid var(--border);border-radius:var(--radius-card);background:#fff;padding:24px;display:flex;flex-direction:column}
+.testi h4{font-size:16px;font-weight:500;letter-spacing:-.015em;color:var(--ink)}
 .testi svg{color:var(--border-strong)}
 .testi blockquote{margin-top:16px;flex:1;font-size:15px;line-height:1.55;color:var(--body)}
 .testi-who{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:12px}
@@ -234,7 +235,7 @@ section.block{padding:88px 0}
 .pack-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .pack-tile{display:flex;flex-direction:column;align-items:center;gap:10px}
 .pack-tile .box{width:100%;max-width:190px;border:1px solid var(--border);border-radius:var(--radius-ctl);background:#fff;overflow:hidden;position:relative}
-.pack-tile .box img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.pack-tile .box img{width:84%;height:84%;object-fit:contain;position:absolute;inset:8%}
 .pack-tile figcaption{font-size:12.5px;color:var(--muted)}
 
 /* ---------- Before / After ---------- */
@@ -248,7 +249,7 @@ section.block{padding:88px 0}
 .ba-frame .box .pad{position:absolute;inset:0}
 .ba-frame .box .pad.lg{inset:24px}
 .ba-frame .box .pad.sm{inset:12px}
-.ba-frame .box .pad img{width:100%;height:100%;object-fit:cover;border-radius:4px}
+.ba-frame .box .pad img{width:100%;height:100%;object-fit:contain;border-radius:4px}
 .ba-frame figcaption{font-size:12.5px;color:var(--muted);white-space:nowrap}
 .ba-chevron{color:var(--border-strong);flex:none}
 
@@ -332,17 +333,19 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
 <header>
   <div class="wrap hdr">
     <a class="logo" href="#">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <rect x="0.75" y="0.75" width="18.5" height="18.5" rx="5.25" fill="#111111"/>
-        <rect x="5.5" y="5.5" width="9" height="9" rx="1.75" stroke="#fff" stroke-width="1.3"/>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <rect x="1" y="6" width="13" height="13" rx="3.5" fill="#15803D"/>
+        <rect x="7" y="1" width="14" height="14" rx="4" fill="#111111"/>
+        <circle cx="16.5" cy="5.5" r="1.35" fill="white"/>
+        <path d="M10.5 11.5L13.2 8.8L17.7 13.3" stroke="white" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      FileKit
+      WareSnap
     </a>
     <nav class="main">
       <a href="#tools">Tools</a>
       <a href="#pricing">Pricing</a>
-      <a href="#">Examples</a>
-      <a href="#">FAQ</a>
+      <a href="#before-after">Examples</a>
+      <a href="#faq">FAQ</a>
     </nav>
     <div class="hdr-right">
       <a class="signin" href="#">Sign In</a>
@@ -357,8 +360,8 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
   <div class="mobile-nav" id="mnav">
     <a href="#tools">Tools</a>
     <a href="#pricing">Pricing</a>
-    <a href="#">Examples</a>
-    <a href="#">FAQ</a>
+    <a href="#before-after">Examples</a>
+    <a href="#faq">FAQ</a>
     <div class="row">
       <a class="btn btn-ghost btn-sm" style="flex:1" href="#">Sign In</a>
       <a class="btn btn-primary btn-sm" style="flex:1" href="#">Get Started</a>
@@ -383,7 +386,7 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
       <div class="app">
         <div class="app-bar">
           <div class="app-dots"><i></i><i></i><i></i></div>
-          <div class="app-title">FileKit — Editor</div>
+          <div class="app-title">WareSnap — Editor</div>
           <div class="app-tokens"><b>287</b> tokens</div>
         </div>
         <div class="app-body">
@@ -413,14 +416,14 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
             </div>
             <div class="stage">
               <div class="stage-img">
-                <img src="public/samples/leather-wallet.jpg" alt="Leather wallet product photo">
+                <img src="public/generated/wallet-original.webp" alt="Leather wallet product photo">
               </div>
             </div>
             <div class="strip">
-              <div class="thumb active"><img src="public/samples/leather-wallet.jpg" alt=""></div>
-              <div class="thumb"><img src="public/samples/folded-sweaters.jpg" alt=""></div>
-              <div class="thumb"><img src="public/samples/gold-ring.jpg" alt=""></div>
-              <div class="thumb"><img src="public/samples/ceramic-mug.jpg" alt=""></div>
+              <div class="thumb active"><img src="public/generated/wallet-original.webp" alt=""></div>
+              <div class="thumb"><img src="public/generated/sweaters-original.webp" alt=""></div>
+              <div class="thumb"><img src="public/generated/ring-original.webp" alt=""></div>
+              <div class="thumb"><img src="public/generated/mug-original.webp" alt=""></div>
             </div>
           </div>
 
@@ -567,12 +570,12 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
     <div class="sec-head">
       <div class="eyebrow">Marketplace Pack</div>
       <h2>One upload. Every storefront.</h2>
-      <p>Stop resizing and exporting the same product photos one marketplace at a time — FileKit cuts a set for all 9.</p>
+      <p>Stop resizing and exporting the same product photos one marketplace at a time — WareSnap cuts a set for all 9.</p>
     </div>
 
     <div class="pack-wrap">
       <figure class="pack-original">
-        <div class="box"><img src="public/samples/wooden-bowls.jpg" alt="Wooden bowls product photo"></div>
+        <div class="box"><img src="public/generated/bowls-original.webp" alt="Wooden bowls product photo"></div>
         <figcaption>Original</figcaption>
       </figure>
 
@@ -580,39 +583,39 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
 
       <div class="pack-tiles">
         <figure class="pack-tile">
-          <div class="box" style="aspect-ratio:2000/2000"><img src="public/samples/wooden-bowls.jpg" alt=""></div>
+          <div class="box" style="aspect-ratio:2000/2000"><img src="public/generated/bowls-ready.webp" alt=""></div>
           <figcaption>Amazon 2000 × 2000</figcaption>
         </figure>
         <figure class="pack-tile">
-          <div class="box" style="aspect-ratio:2000/1600"><img src="public/samples/wooden-bowls.jpg" alt=""></div>
+          <div class="box" style="aspect-ratio:2000/1600"><img src="public/generated/bowls-ready.webp" alt=""></div>
           <figcaption>Etsy 2000 × 1600</figcaption>
         </figure>
         <figure class="pack-tile">
-          <div class="box" style="aspect-ratio:2048/2048"><img src="public/samples/wooden-bowls.jpg" alt=""></div>
+          <div class="box" style="aspect-ratio:2048/2048"><img src="public/generated/bowls-ready.webp" alt=""></div>
           <figcaption>Shopify 2048 × 2048</figcaption>
         </figure>
         <figure class="pack-tile">
-          <div class="box" style="aspect-ratio:1600/1600"><img src="public/samples/wooden-bowls.jpg" alt=""></div>
+          <div class="box" style="aspect-ratio:1600/1600"><img src="public/generated/bowls-ready.webp" alt=""></div>
           <figcaption>eBay 1600 × 1600</figcaption>
         </figure>
         <figure class="pack-tile">
-          <div class="box" style="aspect-ratio:2000/2000"><img src="public/samples/wooden-bowls.jpg" alt=""></div>
+          <div class="box" style="aspect-ratio:2000/2000"><img src="public/generated/bowls-ready.webp" alt=""></div>
           <figcaption>Walmart 2000 × 2000</figcaption>
         </figure>
         <figure class="pack-tile">
-          <div class="box" style="aspect-ratio:1000/1000"><img src="public/samples/wooden-bowls.jpg" alt=""></div>
+          <div class="box" style="aspect-ratio:1000/1000"><img src="public/generated/bowls-ready.webp" alt=""></div>
           <figcaption>TikTok Shop 1000 × 1000</figcaption>
         </figure>
         <figure class="pack-tile">
-          <div class="box" style="aspect-ratio:1200/1200"><img src="public/samples/wooden-bowls.jpg" alt=""></div>
+          <div class="box" style="aspect-ratio:1200/1200"><img src="public/generated/bowls-ready.webp" alt=""></div>
           <figcaption>Poshmark 1200 × 1200</figcaption>
         </figure>
         <figure class="pack-tile">
-          <div class="box" style="aspect-ratio:1080/1080"><img src="public/samples/wooden-bowls.jpg" alt=""></div>
+          <div class="box" style="aspect-ratio:1080/1080"><img src="public/generated/bowls-ready.webp" alt=""></div>
           <figcaption>Depop 1080 × 1080</figcaption>
         </figure>
         <figure class="pack-tile">
-          <div class="box" style="aspect-ratio:1200/1500"><img src="public/samples/wooden-bowls.jpg" alt=""></div>
+          <div class="box" style="aspect-ratio:1200/1500"><img src="public/generated/bowls-ready.webp" alt=""></div>
           <figcaption>Mercari 1200 × 1500</figcaption>
         </figure>
       </div>
@@ -633,22 +636,22 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
       <div class="ba-name">Leather wallet</div>
       <div class="ba-row">
         <figure class="ba-frame">
-          <div class="box photo"><img src="public/samples/leather-wallet.jpg" alt="Leather wallet product photo" style="width:100%;height:100%;object-fit:cover"></div>
+          <div class="box photo"><img src="public/generated/wallet-original.webp" alt="Leather wallet product photo" style="width:100%;height:100%;object-fit:cover"></div>
           <figcaption>Original</figcaption>
         </figure>
         <svg class="ba-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg>
         <figure class="ba-frame">
-          <div class="box canvas"><div class="pad lg"><img src="public/samples/leather-wallet.jpg" alt=""></div></div>
+          <div class="box canvas"><div class="pad lg"><img src="public/generated/wallet-ready.webp" alt=""></div></div>
           <figcaption>Centered</figcaption>
         </figure>
         <svg class="ba-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg>
         <figure class="ba-frame">
-          <div class="box canvas"><div class="pad sm"><img src="public/samples/leather-wallet.jpg" alt=""></div></div>
+          <div class="box canvas"><div class="pad sm"><img src="public/generated/wallet-ready.webp" alt=""></div></div>
           <figcaption>White background</figcaption>
         </figure>
         <svg class="ba-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg>
         <figure class="ba-frame">
-          <div class="box canvas"><div class="pad"><img src="public/samples/leather-wallet.jpg" alt=""></div></div>
+          <div class="box canvas"><div class="pad"><img src="public/generated/wallet-ready.webp" alt=""></div></div>
           <figcaption>Marketplace ready</figcaption>
         </figure>
       </div>
@@ -658,22 +661,22 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
       <div class="ba-name">Cosmetic tube</div>
       <div class="ba-row">
         <figure class="ba-frame">
-          <div class="box photo"><img src="public/samples/cosmetic-tube.jpg" alt="Cosmetic tube product photo" style="width:100%;height:100%;object-fit:cover"></div>
+          <div class="box photo"><img src="public/generated/cosmetic-original.webp" alt="Cosmetic tube product photo" style="width:100%;height:100%;object-fit:cover"></div>
           <figcaption>Original</figcaption>
         </figure>
         <svg class="ba-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg>
         <figure class="ba-frame">
-          <div class="box canvas"><div class="pad lg"><img src="public/samples/cosmetic-tube.jpg" alt=""></div></div>
+          <div class="box canvas"><div class="pad lg"><img src="public/generated/cosmetic-ready.webp" alt=""></div></div>
           <figcaption>Centered</figcaption>
         </figure>
         <svg class="ba-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg>
         <figure class="ba-frame">
-          <div class="box canvas"><div class="pad sm"><img src="public/samples/cosmetic-tube.jpg" alt=""></div></div>
+          <div class="box canvas"><div class="pad sm"><img src="public/generated/cosmetic-ready.webp" alt=""></div></div>
           <figcaption>White background</figcaption>
         </figure>
         <svg class="ba-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg>
         <figure class="ba-frame">
-          <div class="box canvas"><div class="pad"><img src="public/samples/cosmetic-tube.jpg" alt=""></div></div>
+          <div class="box canvas"><div class="pad"><img src="public/generated/cosmetic-ready.webp" alt=""></div></div>
           <figcaption>Marketplace ready</figcaption>
         </figure>
       </div>
@@ -683,22 +686,22 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
       <div class="ba-name">Gold ring</div>
       <div class="ba-row">
         <figure class="ba-frame">
-          <div class="box photo"><img src="public/samples/gold-ring.jpg" alt="Gold ring product photo" style="width:100%;height:100%;object-fit:cover"></div>
+          <div class="box photo"><img src="public/generated/ring-original.webp" alt="Gold ring product photo" style="width:100%;height:100%;object-fit:cover"></div>
           <figcaption>Original</figcaption>
         </figure>
         <svg class="ba-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg>
         <figure class="ba-frame">
-          <div class="box canvas"><div class="pad lg"><img src="public/samples/gold-ring.jpg" alt=""></div></div>
+          <div class="box canvas"><div class="pad lg"><img src="public/generated/ring-ready.webp" alt=""></div></div>
           <figcaption>Centered</figcaption>
         </figure>
         <svg class="ba-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg>
         <figure class="ba-frame">
-          <div class="box canvas"><div class="pad sm"><img src="public/samples/gold-ring.jpg" alt=""></div></div>
+          <div class="box canvas"><div class="pad sm"><img src="public/generated/ring-ready.webp" alt=""></div></div>
           <figcaption>White background</figcaption>
         </figure>
         <svg class="ba-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg>
         <figure class="ba-frame">
-          <div class="box canvas"><div class="pad"><img src="public/samples/gold-ring.jpg" alt=""></div></div>
+          <div class="box canvas"><div class="pad"><img src="public/generated/ring-ready.webp" alt=""></div></div>
           <figcaption>Marketplace ready</figcaption>
         </figure>
       </div>
@@ -706,38 +709,27 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
   </div>
 </section>
 
-<!-- ================= TESTIMONIALS ================= -->
-<section class="block" id="testimonials" style="padding-top:0">
+<!-- ================= PRODUCT PROOF ================= -->
+<section class="block" id="proof" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">Sellers</div>
-      <h2>What sellers say.</h2>
+      <div class="eyebrow">Why WareSnap</div>
+      <h2>Clear rules. Predictable results.</h2>
+      <p>Professional listing photos should come from a repeatable workflow — not another round of manual resizing.</p>
     </div>
 
     <div class="testi-grid">
       <div class="testi">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 8c-2 0-3 1.5-3 3.5S5 15 7 15c0-3 1-5 3-6V7c-2 0-3 .3-3 1zm10 0c-2 0-3 1.5-3 3.5s1 3.5 3 3.5c0-3 1-5 3-6V7c-2 0-3 .3-3 1z"/></svg>
-        <blockquote>I used to spend Sunday nights resizing the same ten photos for every marketplace. Now it's one upload, and I'm done before my coffee gets cold.</blockquote>
-        <div class="testi-who">
-          <div class="testi-avatar">PN</div>
-          <div><b>Priya N.</b><small>Etsy seller · handmade jewelry</small></div>
-        </div>
+        <h4>Marketplace presets, not guesswork</h4>
+        <blockquote>Export dimensions and aspect ratios are ready for Amazon, Etsy, Shopify, eBay and five more storefronts.</blockquote>
       </div>
       <div class="testi">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 8c-2 0-3 1.5-3 3.5S5 15 7 15c0-3 1-5 3-6V7c-2 0-3 .3-3 1zm10 0c-2 0-3 1.5-3 3.5s1 3.5 3 3.5c0-3 1-5 3-6V7c-2 0-3 .3-3 1z"/></svg>
-        <blockquote>The white background tool alone paid for the plan. My listings finally look like they belong next to the big brands.</blockquote>
-        <div class="testi-who">
-          <div class="testi-avatar">JM</div>
-          <div><b>Jordan M.</b><small>Amazon FBA · home goods</small></div>
-        </div>
+        <h4>One source, a consistent catalog</h4>
+        <blockquote>Use the same framing and margins across every listing, even when each marketplace asks for a different size.</blockquote>
       </div>
       <div class="testi">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 8c-2 0-3 1.5-3 3.5S5 15 7 15c0-3 1-5 3-6V7c-2 0-3 .3-3 1zm10 0c-2 0-3 1.5-3 3.5s1 3.5 3 3.5c0-3 1-5 3-6V7c-2 0-3 .3-3 1z"/></svg>
-        <blockquote>Switching marketplaces used to mean redoing every photo from scratch. FileKit made that problem disappear.</blockquote>
-        <div class="testi-who">
-          <div class="testi-avatar">AR</div>
-          <div><b>Alex R.</b><small>Shopify + eBay · vintage clothing</small></div>
-        </div>
+        <h4>Start free, stay flexible</h4>
+        <blockquote>Try the workflow with 25 tokens and no card. Purchased token packs never expire.</blockquote>
       </div>
     </div>
   </div>
@@ -845,10 +837,10 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
         <p class="faq-a">Your plan's included tokens refresh at the start of every billing month.</p>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Can I use FileKit for Amazon and Etsy?
+        <button class="faq-q">Can I use WareSnap for Amazon and Etsy?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <p class="faq-a">Yes. FileKit prepares images for Amazon, Etsy, Shopify, eBay and other marketplaces from a single upload.</p>
+        <p class="faq-a">Yes. WareSnap prepares images for Amazon, Etsy, Shopify, eBay and other marketplaces from a single upload.</p>
       </div>
       <div class="faq-item">
         <button class="faq-q">Can I cancel anytime?
@@ -860,13 +852,13 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
         <button class="faq-q">Do I need design experience?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <p class="faq-a">No. Pick your marketplace and FileKit handles sizes, ratios and formats.</p>
+        <p class="faq-a">No. Pick your marketplace and WareSnap handles sizes, ratios and formats.</p>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Does FileKit generate product images?
+        <button class="faq-q">Does WareSnap generate product images?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <p class="faq-a">No. FileKit is built to prepare and optimize the photos you already have.</p>
+        <p class="faq-a">No. WareSnap is built to prepare and optimize the photos you already have.</p>
       </div>
       <div class="faq-item">
         <button class="faq-q">What image formats are supported?
@@ -883,20 +875,22 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
   <div class="wrap foot-cols">
     <div class="foot-brand">
       <a class="logo" href="#">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-          <rect x="0.75" y="0.75" width="18.5" height="18.5" rx="5.25" fill="#111111"/>
-          <rect x="5.5" y="5.5" width="9" height="9" rx="1.75" stroke="#fff" stroke-width="1.3"/>
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+          <rect x="1" y="6" width="13" height="13" rx="3.5" fill="#15803D"/>
+          <rect x="7" y="1" width="14" height="14" rx="4" fill="#111111"/>
+          <circle cx="16.5" cy="5.5" r="1.35" fill="white"/>
+          <path d="M10.5 11.5L13.2 8.8L17.7 13.3" stroke="white" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        FileKit
+        WareSnap
       </a>
-      <p>Product photos ready for every marketplace.</p>
+      <p>Every product photo, ready to list.</p>
     </div>
     <div class="foot-col">
       <span class="eyebrow">Product</span>
       <ul>
         <li><a href="#tools">Tools</a></li>
         <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#">Examples</a></li>
+        <li><a href="#before-after">Examples</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
     </div>
@@ -916,7 +910,7 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
     </div>
   </div>
   <div class="foot-bottom">
-    <div class="wrap">© 2026 FileKit. All rights reserved.</div>
+    <div class="wrap">© 2026 WareSnap. All rights reserved.</div>
   </div>
 </footer>
 

@@ -3,11 +3,11 @@
  * edit to this file and nothing else — see CLAUDE.md.
  */
 export const brand = {
-  name: "FileKit",
-  // NOTE: filekit.app is taken; the real domain is still to be chosen.
-  domain: "filekit.app",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://filekit.app",
-  tagline: "Upload once. Sell everywhere.",
+  name: "WareSnap",
+  // The public domain still needs to be purchased and trademark-cleared.
+  domain: "waresnap.app",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://waresnap.app",
+  tagline: "Every product photo, ready to list.",
   description:
     "Resize, optimize and prepare product photos for Amazon, Etsy, Shopify and eBay.",
 } as const;
@@ -16,11 +16,11 @@ export const brand = {
 export const primaryNav = [
   { href: "#tools", label: "Tools" },
   { href: "#pricing", label: "Pricing" },
-  { href: "#", label: "Examples" },
-  { href: "#", label: "FAQ" },
+  { href: "#before-after", label: "Examples" },
+  { href: "#faq", label: "FAQ" },
 ] as const;
 
-/** The storefronts FileKit prepares images for, with their target sizes.
+/** The storefronts WareSnap prepares images for, with their target sizes.
  * Real published specs, not rounded guesses — see sources in SPEC.md §3. */
 export const marketplaces = [
   { id: "amazon", name: "Amazon", width: 2000, height: 2000, ratio: "1:1" },

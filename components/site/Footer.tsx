@@ -8,7 +8,7 @@ const columns = [
     links: [
       { href: "#tools", label: "Tools" },
       { href: "#pricing", label: "Pricing" },
-      { href: "#", label: "Examples" },
+      { href: "#before-after", label: "Examples" },
       { href: "#faq", label: "FAQ" },
     ],
   },
@@ -35,7 +35,7 @@ export function Footer() {
         <div>
           <Wordmark />
           <p className="mt-3.5 max-w-[280px] text-[14px] leading-[1.55] text-muted">
-            Product photos ready for every marketplace.
+            {brand.tagline}
           </p>
         </div>
 
