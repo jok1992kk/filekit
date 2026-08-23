@@ -17,7 +17,7 @@ export const brand = {
 };
 ```
 
-Логотип: текстовый wordmark `WareSnap`, weight 600, tracking -0.03em, слева — две перекрывающиеся рамки 22×22: исходный кадр и готовый листинг.
+Логотип: текстовый wordmark `WareSnap`, weight 600, tracking -0.03em, слева — простая монохромная марка 20×20
 (квадрат со скруглением 6px, внутри — тонкий контур «кадра»/рамки). Без иконок-камер и без градиентов.
 
 ---
@@ -208,7 +208,7 @@ Account: Sign In · Create Account
 1. **What are tokens?** — Tokens are used when you process product images. Different tools use different amounts depending on the work involved.
 2. **Do purchased tokens expire?** — No. Extra token packs never expire. Your plan's monthly tokens are used first.
 3. **What happens to my monthly tokens?** — Your plan's included tokens refresh at the start of every billing month.
-4. **Can I use WareSnap for Amazon and Etsy?** — Yes. WareSnap prepares images for Amazon, Etsy, Shopify and eBay from a single upload.
+4. **Can I use WareSnap for Amazon and Etsy?** — Yes. WareSnap prepares images for Amazon, Etsy, Shopify, eBay and other marketplaces from a single upload.
 5. **Can I cancel anytime?** — Yes. Your plan stays active until the end of the billing period.
 6. **Do I need design experience?** — No. Pick your marketplace and WareSnap handles sizes, ratios and formats.
 7. **Does WareSnap generate product images?** — No. WareSnap is built to prepare and optimize the photos you already have.

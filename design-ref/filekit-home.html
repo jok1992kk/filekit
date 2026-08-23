@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FileKit — Product photos ready for every marketplace</title>
+<title>WareSnap — Product photos ready for every marketplace</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
@@ -81,7 +81,7 @@ h1.hero-title{font-size:clamp(38px,4.6vw,58px);line-height:1.03;letter-spacing:-
 .hero-cta{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
 .hero-note{margin-top:18px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex:none}
-.hero-visual{margin-right:-140px}
+.hero-visual{margin-right:-140px;min-width:0}
 
 /* ---------- Editor preview ---------- */
 .app{
@@ -97,8 +97,8 @@ h1.hero-title{font-size:clamp(38px,4.6vw,58px);line-height:1.03;letter-spacing:-
   padding:3px 8px;font-size:10.5px;color:var(--muted);background:#fff
 }
 .app-tokens b{color:var(--ink);font-weight:500}
-.app-body{display:grid;grid-template-columns:158px minmax(0,1fr) 216px;min-height:392px}
-.rail{border-right:1px solid var(--border);padding:12px 8px;background:#fff}
+.app-body{display:grid;grid-template-columns:158px minmax(0,1fr) 216px;min-height:392px;min-width:0}
+.rail{border-right:1px solid var(--border);padding:12px 8px;background:#fff;min-width:0}
 .rail .eyebrow{padding:0 8px 8px;font-size:10px}
 .rail ul{list-style:none}
 .rail li{
@@ -125,7 +125,7 @@ h1.hero-title{font-size:clamp(38px,4.6vw,58px);line-height:1.03;letter-spacing:-
 .thumb{width:40px;height:40px;border-radius:6px;border:1px solid var(--border);overflow:hidden;background:var(--surface)}
 .thumb img{width:100%;height:100%;object-fit:cover}
 .thumb.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-tint)}
-.panel{border-left:1px solid var(--border);padding:14px;display:flex;flex-direction:column;gap:14px;background:#fff}
+.panel{border-left:1px solid var(--border);padding:14px;display:flex;flex-direction:column;gap:14px;background:#fff;min-width:0}
 .field .eyebrow{font-size:10px;display:block;margin-bottom:6px}
 .select{
   height:32px;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;
@@ -336,7 +336,7 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
         <rect x="0.75" y="0.75" width="18.5" height="18.5" rx="5.25" fill="#111111"/>
         <rect x="5.5" y="5.5" width="9" height="9" rx="1.75" stroke="#fff" stroke-width="1.3"/>
       </svg>
-      FileKit
+      WareSnap
     </a>
     <nav class="main">
       <a href="#tools">Tools</a>
@@ -383,7 +383,7 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
       <div class="app">
         <div class="app-bar">
           <div class="app-dots"><i></i><i></i><i></i></div>
-          <div class="app-title">FileKit — Editor</div>
+          <div class="app-title">WareSnap — Editor</div>
           <div class="app-tokens"><b>287</b> tokens</div>
         </div>
         <div class="app-body">
@@ -567,7 +567,7 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
     <div class="sec-head">
       <div class="eyebrow">Marketplace Pack</div>
       <h2>One upload. Every storefront.</h2>
-      <p>Stop resizing and exporting the same product photos one marketplace at a time — FileKit cuts a set for all 9.</p>
+      <p>Stop resizing and exporting the same product photos one marketplace at a time — WareSnap cuts a set for all 9.</p>
     </div>
 
     <div class="pack-wrap">
@@ -733,7 +733,7 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
       </div>
       <div class="testi">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 8c-2 0-3 1.5-3 3.5S5 15 7 15c0-3 1-5 3-6V7c-2 0-3 .3-3 1zm10 0c-2 0-3 1.5-3 3.5s1 3.5 3 3.5c0-3 1-5 3-6V7c-2 0-3 .3-3 1z"/></svg>
-        <blockquote>Switching marketplaces used to mean redoing every photo from scratch. FileKit made that problem disappear.</blockquote>
+        <blockquote>Switching marketplaces used to mean redoing every photo from scratch. WareSnap made that problem disappear.</blockquote>
         <div class="testi-who">
           <div class="testi-avatar">AR</div>
           <div><b>Alex R.</b><small>Shopify + eBay · vintage clothing</small></div>
@@ -845,10 +845,10 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
         <p class="faq-a">Your plan's included tokens refresh at the start of every billing month.</p>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Can I use FileKit for Amazon and Etsy?
+        <button class="faq-q">Can I use WareSnap for Amazon and Etsy?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <p class="faq-a">Yes. FileKit prepares images for Amazon, Etsy, Shopify, eBay and other marketplaces from a single upload.</p>
+        <p class="faq-a">Yes. WareSnap prepares images for Amazon, Etsy, Shopify, eBay and other marketplaces from a single upload.</p>
       </div>
       <div class="faq-item">
         <button class="faq-q">Can I cancel anytime?
@@ -860,13 +860,13 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
         <button class="faq-q">Do I need design experience?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <p class="faq-a">No. Pick your marketplace and FileKit handles sizes, ratios and formats.</p>
+        <p class="faq-a">No. Pick your marketplace and WareSnap handles sizes, ratios and formats.</p>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Does FileKit generate product images?
+        <button class="faq-q">Does WareSnap generate product images?
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <p class="faq-a">No. FileKit is built to prepare and optimize the photos you already have.</p>
+        <p class="faq-a">No. WareSnap is built to prepare and optimize the photos you already have.</p>
       </div>
       <div class="faq-item">
         <button class="faq-q">What image formats are supported?
@@ -887,7 +887,7 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
           <rect x="0.75" y="0.75" width="18.5" height="18.5" rx="5.25" fill="#111111"/>
           <rect x="5.5" y="5.5" width="9" height="9" rx="1.75" stroke="#fff" stroke-width="1.3"/>
         </svg>
-        FileKit
+        WareSnap
       </a>
       <p>Product photos ready for every marketplace.</p>
     </div>
@@ -916,7 +916,7 @@ footer.site{border-top:1px solid var(--border);background:var(--surface)}
     </div>
   </div>
   <div class="foot-bottom">
-    <div class="wrap">© 2026 FileKit. All rights reserved.</div>
+    <div class="wrap">© 2026 WareSnap. All rights reserved.</div>
   </div>
 </footer>
 
