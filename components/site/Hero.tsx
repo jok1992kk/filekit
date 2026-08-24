@@ -31,7 +31,7 @@ export function Hero() {
         </div>
 
         {/* A passive showcase loop — not clickable. The real, clickable
-          * editor lives on /editor and in the dashboard. */}
+          * panel is the TryItPanel section right below. */}
         <div className="mr-[-140px] max-lap:mr-0">
           <EditorPreview mode="demo" />
         </div>

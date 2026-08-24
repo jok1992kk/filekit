@@ -9,12 +9,14 @@ import { Testimonials } from "@/components/site/Testimonials";
 import { TokenTopUp } from "@/components/site/TokenTopUp";
 import { ToolsGrid } from "@/components/site/ToolsGrid";
 import { TrustStrip } from "@/components/site/TrustStrip";
+import { TryItPanel } from "@/components/site/TryItPanel";
 import { Workflow } from "@/components/site/Workflow";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
+      <TryItPanel />
       <MarketplaceRow />
       <TrustStrip />
       <Workflow />
