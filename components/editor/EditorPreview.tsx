@@ -349,7 +349,7 @@ export function EditorPreview({
       <div className="grid min-h-[392px] grid-cols-[158px_minmax(0,1fr)_216px] max-tab:min-h-0 max-tab:grid-cols-1">
         {/* Left rail — the ten tools */}
         <div className="min-w-0 border-r border-border bg-white px-2 py-3 max-tab:border-r-0 max-tab:border-b max-tab:border-border max-tab:p-2.5">
-          <div className="eyebrow px-2 pb-2 text-[10px] max-tab:hidden">Tools</div>
+          <div className="field-label px-2 pb-2 text-[10px] max-tab:hidden">Tools</div>
           <ul className="max-tab:flex max-tab:gap-1.5 max-tab:overflow-x-auto max-tab:[scrollbar-width:none] max-tab:[&::-webkit-scrollbar]:hidden">
             {tools.map((item, index) => {
               const Icon = item.icon;
@@ -491,7 +491,7 @@ export function EditorPreview({
           {shownPanel === "marketplace" ? (
             <>
               <div>
-                <span className="eyebrow mb-1.5 block text-[10px]">Marketplace</span>
+                <span className="field-label mb-1.5 block text-[10px]">Marketplace</span>
                 {isInteractive ? (
                   <div className="relative">
                     <select
@@ -547,7 +547,7 @@ export function EditorPreview({
               />
 
               <div>
-                <span className="eyebrow mb-1.5 block text-[10px]">Output</span>
+                <span className="field-label mb-1.5 block text-[10px]">Output</span>
                 <div className="flex items-center justify-between rounded-md border border-border px-2.5 py-2 text-[12.5px] text-ink">
                   <span
                     key={`${marketplace.width}x${marketplace.height}`}
@@ -578,7 +578,7 @@ export function EditorPreview({
               />
 
               <div>
-                <span className="eyebrow mb-1.5 block text-[10px]">Quality</span>
+                <span className="field-label mb-1.5 block text-[10px]">Quality</span>
                 <div className="flex overflow-hidden rounded-md border border-border">
                   {QUALITIES.map((item) => {
                     const active = item === quality;
@@ -607,7 +607,7 @@ export function EditorPreview({
               </div>
 
               <div>
-                <span className="eyebrow mb-1.5 block text-[10px]">Estimated size</span>
+                <span className="field-label mb-1.5 block text-[10px]">Estimated size</span>
                 <div className="flex items-center justify-between rounded-md border border-border px-2.5 py-2 text-[12.5px] text-ink">
                   {quality === "Small" ? "310 KB" : quality === "Best" ? "1.1 MB" : "540 KB"}
                   <small className="text-[11px] text-muted">from 4.1 MB</small>
@@ -619,13 +619,13 @@ export function EditorPreview({
           {shownPanel === "rename" ? (
             <>
               <div>
-                <span className="eyebrow mb-1.5 block text-[10px]">Pattern</span>
+                <span className="field-label mb-1.5 block text-[10px]">Pattern</span>
                 <div className="rounded-md border border-border px-2.5 py-2 text-[12.5px] text-ink">
                   {"{product}-{index}"}
                 </div>
               </div>
               <div>
-                <span className="eyebrow mb-1.5 block text-[10px]">Preview</span>
+                <span className="field-label mb-1.5 block text-[10px]">Preview</span>
                 <div className="rounded-md border border-border px-2.5 py-2 text-[12px] text-body">
                   {bulkRenameExample}
                 </div>
@@ -635,7 +635,7 @@ export function EditorPreview({
 
           {shownPanel === "check" ? (
             <div>
-              <span className="eyebrow mb-1.5 block text-[10px]">Checks</span>
+              <span className="field-label mb-1.5 block text-[10px]">Checks</span>
               <ul className="flex flex-col gap-1.5 text-[12.5px] text-body">
                 {["Resolution", "Aspect ratio", "File size", "Colour profile"].map((check) => (
                   <li key={check} className="flex items-center justify-between">
@@ -761,7 +761,7 @@ function FormatRow({
 }) {
   return (
     <div>
-      <span className="eyebrow mb-1.5 block text-[10px]">Format</span>
+      <span className="field-label mb-1.5 block text-[10px]">Format</span>
       <div className="flex overflow-hidden rounded-md border border-border">
         {FORMATS.map((item) => {
           const active = item === value;

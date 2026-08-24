@@ -19,7 +19,10 @@
   --color-border: #e4e4e7;
   --color-border-strong: #d4d4d8;
   --color-accent: #15803d;
-  --color-accent-tint: #f0fdf4;
+  /* One step deeper than the reference's #F0FDF4, which was so close to white
+   * that badges and avatars on a white card read as grey. Still the same hue
+   * as --color-accent, so there is exactly one green on the site. */
+  --color-accent-tint: #dcfce7;
 
   --radius-card: 12px;
   --radius-ctl: 8px;
@@ -74,7 +77,22 @@
  * Components — only the repeated compound from the reference.
  * ------------------------------------------------------------------ */
 
+/* The small uppercase label above every section — the most repeated element
+ * on the page, so it carries the brand colour. Green here (rather than on
+ * headings or buttons) is what threads the accent through all 13 sections
+ * without any of them turning into a coloured block. */
 @utility eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Same type as .eyebrow, deliberately not branded: these sit above the
+ * editor's form controls, where a coloured label would compete with the
+ * accent that marks the *active* tool and the success state. */
+@utility field-label {
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.13em;

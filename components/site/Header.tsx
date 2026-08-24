@@ -22,7 +22,7 @@ export function Header() {
             <Link
               key={`${item.href}-${index}`}
               href={item.href}
-              className="text-body hover:text-ink"
+              className="text-body hover:text-accent"
             >
               {item.label}
             </Link>

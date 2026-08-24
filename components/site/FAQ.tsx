@@ -69,7 +69,7 @@ export function FAQ() {
                     strokeWidth={1.6}
                     className={cn(
                       "flex-none text-muted transition-transform duration-150",
-                      isOpen && "rotate-180",
+                      isOpen && "rotate-180 text-accent",
                     )}
                   />
                 </button>

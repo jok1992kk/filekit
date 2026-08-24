@@ -59,7 +59,7 @@ export function Pricing() {
               )}
             >
               {plan.badge ? (
-                <span className="absolute top-3.5 right-5 rounded-full bg-accent-tint px-[9px] py-[3px] text-[10.5px] font-medium tracking-[.02em] text-accent">
+                <span className="absolute top-3.5 right-5 rounded-full bg-accent px-[9px] py-[3px] text-[10.5px] font-medium tracking-[.02em] text-white">
                   {plan.badge}
                 </span>
               ) : null}

@@ -26,7 +26,7 @@ export function Workflow() {
         <div className="grid grid-cols-3 gap-8 border-t border-border pt-7 max-mob:grid-cols-1 max-mob:gap-[26px]">
           {steps.map((step) => (
             <div key={step.num}>
-              <div className="text-[34px] font-medium leading-none tracking-[-0.04em] text-[#E4E4E7]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-[12px] bg-accent text-[15px] font-medium tracking-[-0.02em] text-white">
                 {step.num}
               </div>
               <h3 className="mt-3.5 text-[19px]">{step.title}</h3>

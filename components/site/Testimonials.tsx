@@ -19,13 +19,13 @@ export function Testimonials() {
                 width={20}
                 height={20}
                 strokeWidth={1.6}
-                className="text-border-strong"
+                className="text-accent"
               />
               <blockquote className="mt-4 flex-1 text-[15px] leading-[1.55] text-body">
                 {testimonial.quote}
               </blockquote>
               <figcaption className="mt-5 flex items-center gap-3 border-t border-border pt-4">
-                <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-surface-2 text-[12px] font-medium tracking-[-0.01em] text-ink">
+                <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-accent-tint text-[12px] font-medium tracking-[-0.01em] text-accent">
                   {testimonial.initials}
                 </span>
                 <span>
