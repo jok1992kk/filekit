@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { runToolAction } from "@/app/actions/tokens";
 import { brand, marketplaces } from "@/lib/brand";
 import { bulkRenameExample, tools } from "@/lib/tools";
+import { cn } from "@/lib/utils";
 
 export type EditorMode = "static" | "demo" | "interactive";
 
@@ -176,13 +177,12 @@ function useInView(ref: React.RefObject<HTMLElement | null>, enabled: boolean) {
 type RunStatus = "idle" | "processing" | "ready";
 
 /**
- * The editor, drawn once and reused (CLAUDE.md): framed and inert in the
- * hero (`mode="static"`), running a scripted 9s loop (`mode="demo"`), or
- * fully clickable (`mode="interactive"`).
- *
- * Interactive mode keeps the demo loop running until the first click, so the
- * hero still sells itself to a visitor who never touches it, then hands over
- * completely the moment someone does.
+ * The editor, drawn once and reused (CLAUDE.md): framed and inert
+ * (`mode="static"`), running a scripted 9s loop with nothing clickable
+ * (`mode="demo"`, used in the hero), or a real, inert-until-clicked preview
+ * (`mode="interactive"`, used on /editor and /dashboard/editor). Interactive
+ * mode never auto-runs — the sign-up nudge and the "ready" state only ever
+ * follow an actual click, never the passing of time.
  */
 export function EditorPreview({
   mode = "static",
@@ -210,9 +210,6 @@ export function EditorPreview({
     : 0;
 
   /* ---------------- interactive state ---------------- */
-  // A landing page that names a tool skips the idle demo loop entirely, so
-  // the editor opens already showing the tool the page is about.
-  const [touched, setTouched] = useState(Boolean(initialToolSlug));
   const [toolIndex, setToolIndex] = useState(initialToolIndex);
   const [marketplaceId, setMarketplaceId] = useState<string>(initialMarketplaceId);
   const [format, setFormat] = useState<string>("JPG");
@@ -224,16 +221,16 @@ export function EditorPreview({
   const [shortfall, setShortfall] = useState<number | null>(null);
   const [runId, setRunId] = useState(0);
 
-  /* The loop only drives the visuals while nobody has interacted yet. */
-  const demoDriven = mode === "demo" || (isInteractive && !touched);
+  // Only mode="demo" auto-plays. An interactive editor — the hero, /editor,
+  // /dashboard/editor — opens as a plain, inert preview and does nothing
+  // until the visitor actually clicks it: auto-running the demo and popping
+  // the sign-up nudge before any real interaction reads as the product
+  // doing something behind the user's back.
+  const demoDriven = mode === "demo";
   const inView = useInView(rootRef, demoDriven);
   const loopActive = demoDriven && inView && !reducedMotion;
   const t = useDemoClock(loopActive);
   const demoTargetId = DEMO_TARGETS[useLoopIndex(t, DEMO_TARGETS.length)];
-
-  const markTouched = useCallback(() => {
-    setTouched(true);
-  }, []);
 
   /* ---------------- the view model both modes render ---------------- */
   const isDemoPhase = demoDriven && loopActive;
@@ -270,7 +267,6 @@ export function EditorPreview({
 
   /* ---------------- actions ---------------- */
   const handleProcess = useCallback(async () => {
-    markTouched();
     if (status === "processing") return;
 
     setShortfall(null);
@@ -295,7 +291,7 @@ export function EditorPreview({
     }
 
     setStatus("ready");
-  }, [cost, markTouched, router, signedIn, status, tool.slug]);
+  }, [cost, router, signedIn, status, tool.slug]);
 
   const reset = useCallback(() => {
     setStatus("idle");
@@ -306,20 +302,18 @@ export function EditorPreview({
 
   const selectTool = useCallback(
     (index: number) => {
-      markTouched();
       setToolIndex(index);
       reset();
     },
-    [markTouched, reset],
+    [reset],
   );
 
   const selectStage = useCallback(
     (index: number) => {
-      markTouched();
       setStageIndex(index);
       reset();
     },
-    [markTouched, reset],
+    [reset],
   );
 
   /* ---------------- shared control classes ---------------- */
@@ -501,11 +495,8 @@ export function EditorPreview({
                 {isInteractive ? (
                   <div className="relative">
                     <select
-                      /* Follows the loop until the first interaction, so the
-                       * field and the Output size never disagree. */
                       value={effectiveMarketplaceId}
                       onChange={(event) => {
-                        markTouched();
                         setMarketplaceId(event.target.value);
                         reset();
                       }}
@@ -550,7 +541,6 @@ export function EditorPreview({
                 value={format}
                 interactive={isInteractive}
                 onChange={(value) => {
-                  markTouched();
                   setFormat(value);
                   reset();
                 }}
@@ -582,7 +572,6 @@ export function EditorPreview({
                 value={format}
                 interactive={isInteractive}
                 onChange={(value) => {
-                  markTouched();
                   setFormat(value);
                   reset();
                 }}
@@ -601,7 +590,6 @@ export function EditorPreview({
                         key={item}
                         type="button"
                         onClick={() => {
-                          markTouched();
                           setQuality(item);
                           reset();
                         }}
@@ -730,7 +718,12 @@ export function EditorPreview({
                 type="button"
                 onClick={isInteractive ? handleProcess : undefined}
                 disabled={status === "processing"}
-                className="h-[34px] w-full rounded-md border-0 bg-[#111] text-[12.5px] font-medium text-white max-tab:h-[38px] disabled:opacity-70"
+                aria-hidden={!isInteractive}
+                tabIndex={isInteractive ? undefined : -1}
+                className={cn(
+                  "h-[34px] w-full rounded-md border-0 bg-[#111] text-[12.5px] font-medium text-white max-tab:h-[38px] disabled:opacity-70",
+                  !isInteractive && "cursor-default",
+                )}
                 style={{
                   transform: pressed ? "scale(0.97)" : "scale(1)",
                   transition: "transform 200ms ease-out",

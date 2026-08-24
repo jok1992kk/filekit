@@ -30,9 +30,10 @@ export function Hero() {
           </p>
         </div>
 
-        {/* Plays its own loop until the visitor clicks, then it is theirs. */}
+        {/* A passive showcase loop — not clickable. The real, clickable
+          * editor lives on /editor and in the dashboard. */}
         <div className="mr-[-140px] max-lap:mr-0">
-          <EditorPreview mode="interactive" />
+          <EditorPreview mode="demo" />
         </div>
       </Container>
     </section>
