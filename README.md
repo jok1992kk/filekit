@@ -51,8 +51,10 @@ migration path to Supabase.
 
 ### Notes for the Vercel deploy
 
-- `.data/waresnap.json` (the local auth store) does not persist across serverless deploys or between function
-  instances — fine for demoing the UI, not a substitute for a real database in production.
+- The local auth store writes to `/tmp` on Vercel (its filesystem is read-only outside of `/tmp` — see
+  `lib/auth/store.ts`), which is writable but ephemeral: an account created on one serverless instance resets on
+  the next cold start. Sign-up and sign-in work for demoing the UI; they are not a substitute for a real database
+  in production. Wiring up Supabase (SPEC.md §11) removes this limitation.
 - The demo checkout (`/checkout`, "Simulate successful payment") is gated by `NODE_ENV !== "production"` unless
   `NEXT_PUBLIC_DEMO_CHECKOUT=true` is also set — set that variable if you want the demo reachable on a deployed
   preview.

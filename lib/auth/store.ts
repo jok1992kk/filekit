@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs";
+import os from "node:os";
 import path from "node:path";
 
 import type { LedgerEntry, Session, User } from "@/lib/auth/types";
@@ -17,7 +18,14 @@ export type Db = {
   ledger: LedgerEntry[];
 };
 
-const DATA_DIR = path.join(process.cwd(), ".data");
+// Vercel's serverless functions run on a read-only filesystem outside of
+// /tmp — process.cwd() is fine for local dev but throws EROFS in
+// production there. This keeps local dev's persistent, gitignored .data/
+// folder and only switches to /tmp (ephemeral per instance, but writable)
+// when actually running on Vercel. See README's deploy notes.
+const DATA_DIR = process.env.VERCEL
+  ? path.join(os.tmpdir(), "waresnap-data")
+  : path.join(process.cwd(), ".data");
 const DATA_FILE = path.join(DATA_DIR, "waresnap.json");
 
 const empty = (): Db => ({ users: [], sessions: [], ledger: [] });
