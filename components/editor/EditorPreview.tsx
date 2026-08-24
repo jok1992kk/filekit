@@ -188,21 +188,33 @@ export function EditorPreview({
   mode = "static",
   signedIn = false,
   initialBalance = 287,
+  initialToolSlug,
+  initialMarketplaceId = "amazon",
 }: {
   mode?: EditorMode;
   /** Interactive mode only: charge real tokens instead of prompting to sign up. */
   signedIn?: boolean;
   initialBalance?: number;
+  /** Opens the editor on this tool instead of the first one — used by the
+   * per-tool landing pages so the demo matches the page it's embedded on. */
+  initialToolSlug?: string;
+  initialMarketplaceId?: string;
 }) {
   const router = useRouter();
   const rootRef = useRef<HTMLDivElement>(null);
   const reducedMotion = usePrefersReducedMotion();
   const isInteractive = mode === "interactive";
 
+  const initialToolIndex = initialToolSlug
+    ? Math.max(0, tools.findIndex((tool) => tool.slug === initialToolSlug))
+    : 0;
+
   /* ---------------- interactive state ---------------- */
-  const [touched, setTouched] = useState(false);
-  const [toolIndex, setToolIndex] = useState(0);
-  const [marketplaceId, setMarketplaceId] = useState<string>("amazon");
+  // A landing page that names a tool skips the idle demo loop entirely, so
+  // the editor opens already showing the tool the page is about.
+  const [touched, setTouched] = useState(Boolean(initialToolSlug));
+  const [toolIndex, setToolIndex] = useState(initialToolIndex);
+  const [marketplaceId, setMarketplaceId] = useState<string>(initialMarketplaceId);
   const [format, setFormat] = useState<string>("JPG");
   const [quality, setQuality] = useState<string>("Balanced");
   const [stageIndex, setStageIndex] = useState(0);

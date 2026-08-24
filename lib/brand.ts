@@ -12,12 +12,14 @@ export const brand = {
     "Resize, optimize and prepare product photos for Amazon, Etsy, Shopify and eBay.",
 } as const;
 
-/** Header navigation, in the order the approved design lists it. */
+/** Header navigation, in the order the approved design lists it. Tools,
+ * Pricing and Examples point at their standalone pages now that Stage 6
+ * built them; FAQ stays a same-page anchor since there's no dedicated page. */
 export const primaryNav = [
-  { href: "#tools", label: "Tools" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#before-after", label: "Examples" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/tools", label: "Tools" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/examples", label: "Examples" },
+  { href: "/#faq", label: "FAQ" },
 ] as const;
 
 /** The storefronts WareSnap prepares images for, with their target sizes.

@@ -19,13 +19,13 @@ export function Header() {
 
         <nav className="flex gap-[26px] text-[14.5px] max-tab:hidden">
           {primaryNav.map((item, index) => (
-            <a
+            <Link
               key={`${item.href}-${index}`}
               href={item.href}
               className="text-body hover:text-ink"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -52,14 +52,14 @@ export function Header() {
       {open ? (
         <div className="border-b border-border bg-white">
           {primaryNav.map((item, index) => (
-            <a
+            <Link
               key={`${item.href}-${index}`}
               href={item.href}
               onClick={() => setOpen(false)}
               className="block border-b border-border px-6 py-[13px] text-[15px]"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
           <div className="flex gap-[10px] px-6 py-[14px]">
             <Link

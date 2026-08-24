@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 import { Container, Section, SectionHead } from "@/components/site/Section";
+import { landingSlugFor } from "@/lib/tool-pages";
 import { tools } from "@/lib/tools";
 
 export function ToolsGrid() {
@@ -14,11 +17,11 @@ export function ToolsGrid() {
         <div className="grid grid-cols-5 gap-px overflow-hidden rounded-card border border-border bg-border max-lap:grid-cols-3 max-mob:grid-cols-2">
           {tools.map((tool) => {
             const Icon = tool.icon;
-            return (
-              <div
-                key={tool.slug}
-                className="relative flex min-h-[132px] flex-col bg-white px-[18px] py-5 hover:bg-surface"
-              >
+            const slug = landingSlugFor(tool.slug);
+            const className =
+              "relative flex min-h-[132px] flex-col bg-white px-[18px] py-5 hover:bg-surface";
+            const content = (
+              <>
                 {tool.sellerPlus ? (
                   <span className="absolute top-3.5 right-3.5 rounded-full bg-accent-tint px-[7px] py-0.5 text-[10px] font-medium tracking-[.01em] text-accent">
                     Seller+
@@ -33,6 +36,16 @@ export function ToolsGrid() {
                 <p className="mt-1.5 text-[13px] leading-[1.45] text-muted">
                   {tool.display.gridLine}
                 </p>
+              </>
+            );
+
+            return slug ? (
+              <Link key={tool.slug} href={`/tools/${slug}`} className={className}>
+                {content}
+              </Link>
+            ) : (
+              <div key={tool.slug} className={className}>
+                {content}
               </div>
             );
           })}

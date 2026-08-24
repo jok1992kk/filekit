@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Container } from "@/components/site/Section";
 import { Wordmark } from "@/components/site/Wordmark";
 import { brand } from "@/lib/brand";
@@ -6,24 +8,24 @@ const columns = [
   {
     title: "Product",
     links: [
-      { href: "#tools", label: "Tools" },
-      { href: "#pricing", label: "Pricing" },
-      { href: "#before-after", label: "Examples" },
-      { href: "#faq", label: "FAQ" },
+      { href: "/tools", label: "Tools" },
+      { href: "/pricing", label: "Pricing" },
+      { href: "/examples", label: "Examples" },
+      { href: "/#faq", label: "FAQ" },
     ],
   },
   {
     title: "Company",
     links: [
-      { href: "#", label: "Terms" },
-      { href: "#", label: "Privacy" },
+      { href: "/terms", label: "Terms" },
+      { href: "/privacy", label: "Privacy" },
     ],
   },
   {
     title: "Account",
     links: [
-      { href: "#", label: "Sign In" },
-      { href: "#", label: "Create Account" },
+      { href: "/signin", label: "Sign In" },
+      { href: "/signup", label: "Create Account" },
     ],
   },
 ];
@@ -45,12 +47,12 @@ export function Footer() {
             <ul className="mt-4 flex flex-col gap-3">
               {column.links.map((link) => (
                 <li key={link.label}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-[14px] text-body hover:text-ink"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
