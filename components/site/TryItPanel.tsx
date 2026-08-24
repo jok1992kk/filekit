@@ -9,8 +9,8 @@ export function TryItPanel() {
       <Container>
         <SectionHead
           eyebrow="Try it"
-          title="This isn't a mockup. Click it."
-          lead="Sample photos are already loaded — pick a tool, choose a marketplace and press Process."
+          title="Ten tools. Ten real workspaces."
+          lead="Click through the tool rail — every utility opens its own controls, product example and finished output."
         />
         <EditorPreview mode="interactive" />
       </Container>

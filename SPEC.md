@@ -145,18 +145,20 @@ marquee и Marketplace Pack, не перечисляются поимённо в
 
 ## 6. Главная страница — структура и копирайт
 
-Порядок секций (и всё, больше ничего не добавлять):
+Текущий порядок секций:
 
 **Header** (sticky, высота 64px, нижняя граница 1px, фон белый)
 `WareSnap` · Tools · Pricing · Examples · FAQ · — · `Sign In` (текст) · `Get Started` (primary)
 Мобильный: бургер → простой sheet-меню.
 
 **Hero**
-- H1: `Product photos ready for every marketplace.`
-- Sub: `Resize, optimize and prepare your product images for Amazon, Etsy, Shopify and eBay — without doing the same work over and over.`
+- H1: `Your product photos, ready for every marketplace.`
+- Sub: `Turn raw camera-roll photos into compliant sizes, clean backgrounds, fast files and named batches — without repeating the work store by store.`
 - CTA: `Prepare Your Photos` (primary) · `See How It Works` (ghost, скроллит к Workflow)
 - Микро-строка под кнопками: `25 free tokens to start. No card required.`
-- Визуал: **реальный UI редактора** в аккуратной рамке окна (точки-светофор, светлая полоска адресной строки), не иллюстрация. Компонент `EditorPreview` в режиме `static`.
+- Визуал: сменяющиеся брендовые product-фото ROVE / MELA / NOON. Полный кликабельный `EditorPreview` расположен следующей секцией и не запускается без клика пользователя.
+
+**Try it** — кликабельный редактор с 10 отдельными workspace: у каждого инструмента собственные контролы, подходящий пример и собственное представление результата.
 
 **Marketplace row**
 Заголовок мелким капсом: `BUILT FOR WHERE YOU SELL` · бесконечная CSS-marquee из всех площадок
@@ -171,21 +173,19 @@ marquee и Marketplace Pack, не перечисляются поимённо в
 - 02 `Choose where you're selling`
 - 03 `Download ready-to-list images`
 
-**Tools** — сетка 10 карточек (desktop 5×2 или 4×3, mobile 2×5). Иконка 20px, название, одна строка. Кликабельны → `/tools/...` где есть страница, иначе `/tools`.
+**Tools** — сетка 10 карточек (desktop 5×2 или 4×3, mobile 2×5). Иконка 20px, название, одна строка. Все кликабельны: на tool landing где он есть, иначе сразу в соответствующий workspace `/editor?tool=...`.
 Заголовок секции: `Ten tools. One workflow.`
+
+**Demo brands** — три явно обозначенных concept-кейса ROVE / MELA / NOON. Это демонстрация workflow, не выдуманный social proof.
 
 **Marketplace Pack** — крупная секция:
 - H2: `One upload. Every storefront.`
 - Текст (динамический, вставляет `marketplaces.length`): `Stop resizing and exporting the same product photos one marketplace at a time — WareSnap cuts a set for all 9.`
 - Визуал: слева `Original`, стрелка, справа сетка (3×3 на десктопе, 2 кол. на планшете, 1 на мобиле) с превью **всех** площадок из `lib/brand.ts` и подписями размеров.
 
-**Before / After** — 3 реальных товара (кошелёк, косметика, кольцо), ряд: `Original` → `Centered` → `White background` → `Marketplace ready`. Подписи мелкие, серые. На мобиле — горизонтальный скролл.
+**Before / After** — 3 concept-бренда (ROVE cap, MELA serum, NOON coffee), ряд: `Original` → `Clean background` → `Safe margins` → `Marketplace ready`. Подписи мелкие, серые. На мобиле — горизонтальный скролл.
 
-**Testimonials** — 3 карточки «отзывов», H2 `What sellers say.` Плейсхолдер-контент: реальных клиентов
-у продукта пока нет (pre-launch), но по прямому запросу владельца продукта оформлены так, будто отзывы
-уже настоящие — инициалы в кружке вместо фото (не стоковые лица чужих людей), имя + роль, короткая
-цитата без придуманных точных цифр/процентов. Данные — `lib/testimonials.ts`, единственное место,
-куда владелец подставит реальные тексты позже.
+**Social proof** — до появления реальных клиентов не показываем отзывы, имена и метрики, которые могут быть приняты за настоящие. Используем только product facts и явно обозначенные concept-кейсы.
 
 **Pricing** — три карты, тоггл Monthly/Yearly, средняя выделена рамкой accent-цвета и бейджем.
 

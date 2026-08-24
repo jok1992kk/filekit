@@ -14,8 +14,13 @@ export const metadata: Metadata = {
 /** The public demo (SPEC.md §2). Everything works; downloading needs an account.
  * Signed-in visitors get sent to the real editor rather than being asked to
  * create an account they already have. */
-export default async function PublicEditorPage() {
+export default async function PublicEditorPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tool?: string }>;
+}) {
   if (await getCurrentUser()) redirect("/dashboard/editor");
+  const { tool } = await searchParams;
 
   return (
     <Section>
@@ -30,7 +35,7 @@ export default async function PublicEditorPage() {
         </div>
 
         <div className="mt-10">
-          <EditorPreview mode="interactive" />
+          <EditorPreview mode="interactive" initialToolSlug={tool} />
         </div>
       </Container>
     </Section>

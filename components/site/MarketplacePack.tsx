@@ -5,9 +5,9 @@ import { Container, Section, SectionHead } from "@/components/site/Section";
 import { brand, marketplaces } from "@/lib/brand";
 
 const sample = {
-  originalSrc: "/generated/bowls-original.webp",
-  readySrc: "/generated/bowls-ready.webp",
-  alt: "Wooden bowls product photo",
+  originalSrc: "/brand/noon-coffee-original.webp",
+  readySrc: "/brand/noon-coffee-ready.webp",
+  alt: "NOON coffee bag and cup product photo",
 };
 
 export function MarketplacePack() {
