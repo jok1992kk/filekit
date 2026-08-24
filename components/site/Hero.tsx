@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { EditorPreview } from "@/components/editor/EditorPreview";
 import { Container } from "@/components/site/Section";
+import { HeroShowcase } from "@/components/site/HeroShowcase";
 import { buttonClass } from "@/components/ui/Button";
 
 export function Hero() {
@@ -30,10 +30,11 @@ export function Hero() {
           </p>
         </div>
 
-        {/* A passive showcase loop — not clickable. The real, clickable
-          * panel is the TryItPanel section right below. */}
-        <div className="mr-[-140px] max-lap:mr-0">
-          <EditorPreview mode="demo" />
+        {/* A silent tour of a few finished photos — not an app UI, not
+          * clickable. The real, clickable panel is the TryItPanel section
+          * right below. */}
+        <div className="mx-auto w-full max-w-[420px] max-lap:max-w-[380px]">
+          <HeroShowcase />
         </div>
       </Container>
     </section>

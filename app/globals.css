@@ -133,6 +133,21 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Hero showcase (components/site/HeroShowcase.tsx) — the segmented
+ * progress bar's currently-playing segment fills left to right, like a
+ * video/story player, over one slide's dwell time.
+ * ------------------------------------------------------------------ */
+
+@keyframes segment-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * Route-loading bar (app/loading.tsx) — a sweeping accent segment
  * rather than a spinner, in keeping with the editor's own progress bar.
  * ------------------------------------------------------------------ */
