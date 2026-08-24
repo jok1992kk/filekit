@@ -6,37 +6,43 @@ import { buttonClass } from "@/components/ui/Button";
 
 export function Hero() {
   return (
-    <section className="relative pt-[84px] pb-[72px] max-lap:py-14">
-      <Container className="grid grid-cols-[minmax(0,470px)_minmax(0,1fr)] items-center gap-14 max-lap:grid-cols-1 max-lap:gap-11">
-        <div>
-          <h1 className="text-[clamp(38px,4.6vw,58px)] leading-[1.03] tracking-[-0.033em]">
-            Product photos ready for every marketplace.
-          </h1>
-          <p className="mt-5 max-w-[452px] text-[17.5px] leading-[1.55] text-body max-lap:max-w-[600px]">
-            Resize, optimize and prepare your product images for Amazon, Etsy,
-            Shopify and eBay — without doing the same work over and over.
-          </p>
-          <div className="mt-[30px] flex flex-wrap gap-3 max-mob:[&>a]:flex-1">
-            <Link href="/signup" className={buttonClass()}>
-              Prepare Your Photos
-            </Link>
-            <a href="#how" className={buttonClass({ variant: "ghost" })}>
-              See How It Works
-            </a>
-          </div>
-          <p className="mt-[18px] flex items-center gap-2 text-[13px] text-muted">
-            <span className="h-[5px] w-[5px] flex-none rounded-full bg-accent" />
-            25 free tokens to start. No card required.
-          </p>
+    <section className="relative overflow-hidden pt-24 pb-20 max-lap:pt-16 max-lap:pb-14">
+      <Container className="flex flex-col items-center text-center">
+        <h1 className="max-w-[760px] text-[clamp(38px,5vw,58px)] leading-[1.03] tracking-[-0.033em]">
+          Product photos ready for{" "}
+          <span className="text-accent">every marketplace</span>.
+        </h1>
+        <p className="mt-5 max-w-[540px] text-[17.5px] leading-[1.55] text-body">
+          Resize, optimize and prepare your product images for Amazon, Etsy,
+          Shopify and eBay — without doing the same work over and over.
+        </p>
+        <div className="mt-[30px] flex flex-wrap justify-center gap-3 max-mob:w-full max-mob:[&>a]:flex-1">
+          <Link href="/signup" className={buttonClass()}>
+            Prepare Your Photos
+          </Link>
+          <a href="#how" className={buttonClass({ variant: "ghost" })}>
+            See How It Works
+          </a>
         </div>
+        <p className="mt-[18px] flex items-center gap-2 text-[13px] text-muted">
+          <span className="h-[5px] w-[5px] flex-none rounded-full bg-accent" />
+          25 free tokens to start. No card required.
+        </p>
+      </Container>
 
-        {/* A silent tour of a few finished photos — not an app UI, not
-          * clickable. The real, clickable panel is the TryItPanel section
-          * right below. */}
-        <div className="mx-auto w-full max-w-[420px] max-lap:max-w-[380px]">
+      {/* A silent tour of a few finished photos, drawn as a small stack —
+        * one plain card peeking out behind the live one — rather than a
+        * single flat panel. Not an app UI, not clickable: the real,
+        * clickable panel is the TryItPanel section right below. */}
+      <div className="relative mx-auto mt-16 w-full max-w-[440px] max-lap:mt-12 max-lap:max-w-[380px] max-mob:mt-10">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 rounded-card border border-border bg-surface rotate-[-5deg]"
+        />
+        <div className="rotate-[1.5deg]">
           <HeroShowcase />
         </div>
-      </Container>
+      </div>
     </section>
   );
 }
