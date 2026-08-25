@@ -12,39 +12,47 @@ export const metadata: Metadata = {
 const sections = [
   {
     heading: "1. What we collect",
-    body: "Account information you give us — name, email and billing details — and basic usage data, like which tools you use and how many tokens you spend. We don't collect more than we need to run the service.",
+    body: "We collect information you provide, such as your name and email, together with essential account, device and usage data needed to operate, secure and improve WareSnap. Payment details, when payments are enabled, are handled by the payment provider rather than stored directly by WareSnap.",
   },
   {
     heading: "2. Your photos",
-    body: "Photos you upload to process are used only to generate your result. Sample photos aside, WareSnap does not use your images to train any model, and does not share them with third parties.",
+    body: "Photos you submit are used to perform the processing you request and deliver the result. WareSnap does not sell your files or use them to train third-party models. Files are shared only with service providers required to complete the requested operation.",
   },
   {
     heading: "3. How we use your data",
-    body: "To run your account, process payments, send service emails (like receipts and password resets), and improve WareSnap. We don't sell your personal data.",
+    body: "We use data to provide and secure the service, manage accounts, fulfil requests, communicate important service information, provide support and understand product performance. We do not sell personal data.",
   },
   {
     heading: "4. Cookies",
-    body: "We use a small number of cookies to keep you signed in and remember your preferences. We don't use third-party advertising cookies.",
+    body: "We use essential cookies to maintain sessions, protect accounts and remember product preferences. Optional analytics, when enabled, are handled according to applicable consent requirements.",
   },
   {
     heading: "5. Service providers",
-    body: "We use trusted providers for hosting, authentication, email delivery and payment processing. Each only receives the data it needs to do its job.",
+    body: "We may use specialist providers for hosting, authentication, email delivery, analytics and payments. Each provider receives only the information needed for its role and is required to protect it.",
   },
   {
     heading: "6. Data retention",
-    body: "We keep your account data for as long as your account is active. You can request deletion of your account and associated data at any time.",
+    body: "We retain account data while your account is active and for a limited period afterwards where needed for security, legal or financial obligations. Processing files are retained only for the period needed to provide the requested service, unless you choose to save them.",
   },
   {
     heading: "7. Your rights",
-    body: "You can access, correct or delete your personal data, and export your account information, by contacting us or through your Account settings.",
+    body: "Depending on where you live, you may have rights to access, correct, delete, restrict or export your personal data and to object to certain processing. Requests can be sent to the contact below.",
   },
   {
-    heading: "8. Changes to this policy",
-    body: "If we make a material change to how we handle your data, we'll let you know before it takes effect.",
+    heading: "8. International processing",
+    body: "Service providers may process data in countries other than your own. Where required, we use appropriate safeguards for international transfers.",
   },
   {
-    heading: "9. Contact",
-    body: "Questions about your data? Reach us at privacy@waresnap.app.",
+    heading: "9. Security",
+    body: "We use reasonable technical and organisational safeguards designed to protect account information and files. No online service can guarantee absolute security.",
+  },
+  {
+    heading: "10. Changes to this policy",
+    body: "We may update this policy as WareSnap evolves. Material changes will be communicated through the service or another reasonable channel.",
+  },
+  {
+    heading: "11. Contact",
+    body: "Privacy questions and data requests can be sent to privacy@waresnap.app.",
   },
 ];
 
@@ -56,7 +64,7 @@ export default function PrivacyPage() {
           <div className="max-w-[68ch]">
             <div className="eyebrow">Legal</div>
             <h1 className="mt-3 text-[clamp(28px,3.2vw,38px)]">Privacy Policy</h1>
-            <p className="mt-3.5 text-[13.5px] text-muted">Last updated January 1, 2026</p>
+            <p className="mt-3.5 text-[13.5px] text-muted">Last updated August 25, 2026</p>
 
             <div className="mt-10 flex flex-col gap-8">
               {sections.map((section) => (

@@ -19,7 +19,7 @@ import { brand } from "@/lib/brand";
 import { tools } from "@/lib/tools";
 import { cn } from "@/lib/utils";
 
-export type EditorMode = "static" | "demo" | "interactive";
+export type EditorMode = "static" | "interactive";
 type RunStatus = "idle" | "processing" | "ready";
 
 const RUN_MS = 900;
@@ -137,7 +137,7 @@ export function EditorPreview({
         </div>
         <div className="flex-1 text-center text-[11.5px] tracking-[-0.01em] text-muted">{brand.name} — {tool.name}</div>
         <div className="flex flex-none items-center gap-1.5">
-          <span className="hidden rounded-full bg-accent-tint px-2 py-0.5 text-[10px] font-medium text-accent min-[520px]:inline">Live demo</span>
+          <span className="hidden rounded-full bg-accent-tint px-2 py-0.5 text-[10px] font-medium text-accent min-[520px]:inline">Workspace</span>
           <span className="rounded-full border border-border bg-white px-2 py-0.5 text-[10.5px] text-muted"><b className="font-medium text-ink">{balance}</b> tokens</span>
         </div>
       </div>
@@ -173,7 +173,7 @@ export function EditorPreview({
 
           <div className="border-t border-border bg-white px-3 py-2.5">
             <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <span className="field-label mr-1 flex-none text-[9px] max-mob:hidden">Samples</span>
+              <span className="field-label mr-1 flex-none text-[9px] max-mob:hidden">Projects</span>
               {editorSamples.map((item, index) => {
                 const active = index === sampleIndex;
                 return <button key={item.id} type="button" disabled={!interactive} onClick={() => { setSampleIndex(index); reset(); }} aria-label={item.brand} aria-pressed={active} className={cn("group flex flex-none items-center gap-2 rounded-lg border bg-white p-1 pr-2.5 text-left", active ? "border-accent shadow-[0_0_0_2px_var(--color-accent-tint)]" : "border-border hover:border-border-strong")}><span className="relative h-9 w-9 overflow-hidden rounded-md bg-surface"><Image src={item.src} alt="" fill sizes="36px" className="object-cover" /></span><span className={cn("max-w-[84px] truncate text-[10.5px]", active ? "font-medium text-ink" : "text-muted")}>{item.brand}</span></button>;
@@ -197,7 +197,7 @@ export function EditorPreview({
               {ready ? signedIn ? (
                 <div className="flex gap-2"><a href={outputHref} download className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md bg-[#111] text-[11.5px] font-medium text-white"><Download width={13} />Download</a><button type="button" onClick={reset} aria-label="Reset" className="grid h-9 w-9 place-items-center rounded-md border border-border text-muted hover:text-ink"><RotateCcw width={14} /></button></div>
               ) : (
-                <div className="rounded-lg border border-border bg-surface p-3"><p className="text-[11px] leading-[1.45] text-body">Your preview is ready. Create a free account to download it.</p><Link href="/signup" className="mt-2.5 flex h-9 w-full items-center justify-center rounded-md bg-[#111] text-[11.5px] font-medium text-white">Create free account</Link></div>
+                <div className="rounded-lg border border-border bg-surface p-3"><p className="text-[11px] leading-[1.45] text-body">Your image is ready. Create a free account to download it.</p><Link href="/signup" className="mt-2.5 flex h-9 w-full items-center justify-center rounded-md bg-[#111] text-[11.5px] font-medium text-white">Create free account</Link></div>
               ) : (
                 <button type="button" onClick={handleProcess} disabled={!interactive || status === "processing"} className="h-9 w-full rounded-md bg-[#111] text-[11.5px] font-medium text-white transition-transform active:scale-[.98] disabled:cursor-default disabled:opacity-70">{status === "processing" ? "Processing…" : actionLabelByTool[tool.slug] ?? "Process Image"}</button>
               )}

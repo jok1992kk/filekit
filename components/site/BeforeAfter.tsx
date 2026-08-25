@@ -39,7 +39,7 @@ export function BeforeAfter() {
         <SectionHead
           eyebrow="Before / After"
           title="From raw photo to ready listing."
-          lead="Three fictional brands, shown as real seller workflows — from campaign shot to compliant listing."
+          lead="Three product workflows, from the original campaign shot to a clean, compliant listing."
         />
 
         <div className="flex flex-col gap-11 max-mob:gap-8">

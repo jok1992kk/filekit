@@ -54,7 +54,7 @@ export default function ToolsPage() {
                     {tool.oneLiner}
                   </p>
                   <span className="mt-auto pt-3 text-[12px] font-medium text-muted">
-                    {landingSlug ? "Learn more" : "Open demo"} →
+                    {landingSlug ? "Learn more" : "Open editor"} →
                   </span>
                 </>
               );

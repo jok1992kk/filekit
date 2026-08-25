@@ -118,8 +118,9 @@ export function UploadCard() {
 
       <button
         type="button"
-        onClick={() => router.push("/dashboard/editor")}
-        className={buttonClass({ className: "mt-5 max-mob:w-full" })}
+        disabled={files.length === 0}
+        onClick={() => router.push(`/dashboard/editor?marketplace=${marketplace}`)}
+        className={buttonClass({ className: "mt-5 max-mob:w-full disabled:cursor-not-allowed disabled:opacity-45" })}
       >
         Continue
       </button>

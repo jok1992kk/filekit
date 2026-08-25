@@ -6,9 +6,14 @@ import { getCurrentUser, tokenBalance } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "Editor" };
 
-export default async function DashboardEditorPage() {
+export default async function DashboardEditorPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tool?: string; marketplace?: string }>;
+}) {
   const user = await getCurrentUser();
   if (!user) return null;
+  const { tool, marketplace } = await searchParams;
 
   return (
     <Container className="py-11 max-mob:py-8">
@@ -23,6 +28,8 @@ export default async function DashboardEditorPage() {
           mode="interactive"
           signedIn
           initialBalance={tokenBalance(user)}
+          initialToolSlug={tool}
+          initialMarketplaceId={marketplace}
         />
       </div>
     </Container>

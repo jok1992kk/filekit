@@ -22,21 +22,21 @@ const targets = [
 const products = [
   {
     name: "ROVE trail cap",
-    category: "Outdoor merch · concept brand",
+    category: "Outdoor merch",
     originalSrc: "/brand/rove-cap-original.webp",
     readySrc: "/brand/rove-cap-cutout.webp",
     alt: "ROVE trail cap product photo",
   },
   {
     name: "MELA peach serum",
-    category: "Skincare · concept brand",
+    category: "Skincare",
     originalSrc: "/brand/mela-serum-original.webp",
     readySrc: "/brand/mela-serum-ready.webp",
     alt: "MELA serum product photo",
   },
   {
     name: "NOON coffee set",
-    category: "Food & drink · concept brand",
+    category: "Food & drink",
     originalSrc: "/brand/noon-coffee-original.webp",
     readySrc: "/brand/noon-coffee-ready.webp",
     alt: "NOON coffee product photo",
@@ -72,7 +72,7 @@ export default function ExamplesPage() {
           <SectionHead
             eyebrow="Examples"
             title="One photo, every storefront."
-            lead="Six product workflows, prepared for Amazon, Etsy and Shopify from the same original. Concept brands are clearly labelled."
+            lead="Six product workflows, prepared for Amazon, Etsy and Shopify from the same original."
           />
         </Container>
       </Section>
@@ -147,12 +147,12 @@ export default function ExamplesPage() {
           </div>
 
           <div className="mt-14 flex flex-col items-start gap-4 rounded-card border border-border bg-surface p-8 max-mob:p-6">
-            <h3 className="text-[19px]">Try it with your own photos.</h3>
+            <h3 className="text-[19px]">Prepare your own product photos.</h3>
             <p className="max-w-[480px] text-[14.5px] leading-[1.55]">
-              No account needed to look around — sample photos are already loaded in the editor.
+              Choose a marketplace, apply the right workflow and export every image in the format you need.
             </p>
             <Link href="/editor" className={buttonClass()}>
-              Try the Editor
+              Open the Editor
             </Link>
           </div>
         </Container>

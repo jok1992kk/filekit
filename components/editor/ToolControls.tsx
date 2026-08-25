@@ -150,7 +150,7 @@ export function ToolControls({
     <Field label="Filename pattern"><input disabled={disabled} value={renamePattern} onChange={(event) => change(setRenamePattern, event.target.value)} className="h-8 w-full rounded-md border border-border px-2.5 font-mono text-[10.5px] text-ink outline-none focus:border-accent" /></Field>
     <Field label="Separator"><Segmented values={["-", "_", "Space"]} value="-" disabled={disabled} onChange={() => onMutate()} /></Field>
     <Field label="Start number"><StatBox primary="01" secondary="2 digits" /></Field>
-    <div className="rounded-md border border-accent/20 bg-accent-tint/60 px-2.5 py-2 text-[10.5px] leading-[1.4] text-accent">Preview: rove-merch-01.jpg</div>
+    <div className="rounded-md border border-accent/20 bg-accent-tint/60 px-2.5 py-2 text-[10.5px] leading-[1.4] text-accent">Output name: rove-merch-01.jpg</div>
   </>;
 
   if (toolSlug === "quality-checker") return <>

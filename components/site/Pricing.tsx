@@ -6,7 +6,6 @@ import { Check } from "lucide-react";
 
 import { Container, Section, SectionHead } from "@/components/site/Section";
 import { buttonClass } from "@/components/ui/Button";
-import { billing } from "@/lib/billing";
 import {
   cycleLabels,
   perLabels,
@@ -82,10 +81,8 @@ export function Pricing() {
                   : ""}
               </div>
 
-              {/* Signed-out visitors land on sign-up first; middleware sends
-                * them on to checkout once they have an account. */}
               <Link
-                href={`/signup?next=${encodeURIComponent(billing.planCheckoutUrl(plan.id, cycle))}`}
+                href={`/signup?plan=${plan.id}&cycle=${cycle}`}
                 className={buttonClass({
                   variant: plan.featured ? "primary" : "ghost",
                   block: true,

@@ -82,10 +82,6 @@ export function AccountMenu({
           <Link href="/account" role="menuitem" className={itemClass} onClick={() => setOpen(false)}>
             Account
           </Link>
-          <Link href="/tokens" role="menuitem" className={itemClass} onClick={() => setOpen(false)}>
-            Billing
-          </Link>
-
           <form action={signOutAction} className="border-t border-border">
             <button type="submit" role="menuitem" className={itemClass}>
               Sign out
