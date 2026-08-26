@@ -7,30 +7,36 @@ import { getCurrentUser } from "@/lib/auth";
 import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Try the editor",
-  description: `Try the ${brand.name} editor with sample product photos — no account needed.`,
+  title: "Product photo editor",
+  description: `Prepare product photos for every marketplace in the ${brand.name} editor.`,
 };
 
-/** The public demo (SPEC.md §2). Everything works; downloading needs an account.
- * Signed-in visitors get sent to the real editor rather than being asked to
- * create an account they already have. */
-export default async function PublicEditorPage() {
-  if (await getCurrentUser()) redirect("/dashboard/editor");
+/** Signed-in visitors continue in their account workspace. */
+export default async function PublicEditorPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tool?: string }>;
+}) {
+  const { tool } = await searchParams;
+  if (await getCurrentUser()) {
+    const query = tool ? `?tool=${encodeURIComponent(tool)}` : "";
+    redirect(`/dashboard/editor${query}`);
+  }
 
   return (
     <Section>
       <Container>
         <div className="max-w-[640px]">
-          <div className="eyebrow">Demo</div>
-          <h1 className="mt-3 text-[clamp(28px,3.2vw,38px)]">Try the editor.</h1>
+          <div className="eyebrow">Editor</div>
+          <h1 className="mt-3 text-[clamp(28px,3.2vw,38px)]">Prepare every listing image in one place.</h1>
           <p className="mt-3.5 text-[16.5px] leading-[1.55]">
-            Sample photos are already loaded. Pick a tool, choose a marketplace and
-            press Process — no account needed to look around.
+            Choose a tool, apply the right marketplace preset and export a clean,
+            ready-to-list result.
           </p>
         </div>
 
         <div className="mt-10">
-          <EditorPreview mode="interactive" />
+          <EditorPreview mode="interactive" initialToolSlug={tool} />
         </div>
       </Container>
     </Section>

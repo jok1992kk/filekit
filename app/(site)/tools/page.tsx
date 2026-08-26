@@ -30,12 +30,12 @@ export default function ToolsPage() {
           <div className="grid grid-cols-5 gap-px overflow-hidden rounded-card border border-border bg-border max-lap:grid-cols-3 max-mob:grid-cols-2">
             {tools.map((tool) => {
               const Icon = tool.icon;
-              const href = landingSlugFor(tool.slug)
-                ? `/tools/${landingSlugFor(tool.slug)}`
-                : undefined;
+              const landingSlug = landingSlugFor(tool.slug);
+              const href = landingSlug
+                ? `/tools/${landingSlug}`
+                : `/editor?tool=${tool.slug}`;
               const cardClass =
-                "relative flex min-h-[148px] flex-col bg-white px-[18px] py-5" +
-                (href ? " hover:bg-surface" : "");
+                "relative flex min-h-[148px] flex-col bg-white px-[18px] py-5 hover:bg-surface";
 
               const content = (
                 <>
@@ -53,23 +53,13 @@ export default function ToolsPage() {
                   <p className="mt-1.5 text-[13px] leading-[1.45] text-muted">
                     {tool.oneLiner}
                   </p>
-                  {href ? (
-                    <span className="mt-auto pt-3 text-[12px] font-medium text-muted">
-                      Learn more →
-                    </span>
-                  ) : null}
+                  <span className="mt-auto pt-3 text-[12px] font-medium text-muted">
+                    {landingSlug ? "Learn more" : "Open editor"} →
+                  </span>
                 </>
               );
 
-              return href ? (
-                <Link key={tool.slug} href={href} className={cardClass}>
-                  {content}
-                </Link>
-              ) : (
-                <div key={tool.slug} className={cardClass}>
-                  {content}
-                </div>
-              );
+              return <Link key={tool.slug} href={href} className={cardClass}>{content}</Link>;
             })}
           </div>
         </Container>

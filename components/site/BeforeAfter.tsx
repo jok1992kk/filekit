@@ -13,22 +13,22 @@ const frames = [
 
 const products = [
   {
-    name: "Leather wallet",
-    originalSrc: "/generated/wallet-original.webp",
-    readySrc: "/generated/wallet-ready.webp",
-    alt: "Leather wallet product photo",
+    name: "ROVE · trail cap",
+    originalSrc: "/brand/rove-cap-original.webp",
+    readySrc: "/brand/rove-cap-cutout.webp",
+    alt: "ROVE trail cap product photo",
   },
   {
-    name: "Cosmetic tube",
-    originalSrc: "/generated/cosmetic-original.webp",
-    readySrc: "/generated/cosmetic-ready.webp",
-    alt: "Cosmetic tube product photo",
+    name: "MELA · peach serum",
+    originalSrc: "/brand/mela-serum-original.webp",
+    readySrc: "/brand/mela-serum-ready.webp",
+    alt: "MELA skincare serum product photo",
   },
   {
-    name: "Gold ring",
-    originalSrc: "/generated/ring-original.webp",
-    readySrc: "/generated/ring-ready.webp",
-    alt: "Gold ring product photo",
+    name: "NOON · coffee set",
+    originalSrc: "/brand/noon-coffee-original.webp",
+    readySrc: "/brand/noon-coffee-ready.webp",
+    alt: "NOON coffee bag and cup product photo",
   },
 ];
 
@@ -39,7 +39,7 @@ export function BeforeAfter() {
         <SectionHead
           eyebrow="Before / After"
           title="From raw photo to ready listing."
-          lead="No retouching skills required — just an upload."
+          lead="Three product workflows, from the original campaign shot to a clean, compliant listing."
         />
 
         <div className="flex flex-col gap-11 max-mob:gap-8">

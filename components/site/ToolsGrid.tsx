@@ -39,14 +39,14 @@ export function ToolsGrid() {
               </>
             );
 
-            return slug ? (
-              <Link key={tool.slug} href={`/tools/${slug}`} className={className}>
+            return (
+              <Link
+                key={tool.slug}
+                href={slug ? `/tools/${slug}` : `/editor?tool=${tool.slug}`}
+                className={className}
+              >
                 {content}
               </Link>
-            ) : (
-              <div key={tool.slug} className={className}>
-                {content}
-              </div>
             );
           })}
         </div>

@@ -68,7 +68,7 @@ export default async function AccountPage() {
           />
 
           <div className="mt-5 flex flex-wrap gap-2.5">
-            <Link href="/#pricing" className={buttonClass({ variant: "ghost", size: "sm" })}>
+            <Link href="/pricing" className={buttonClass({ variant: "ghost", size: "sm" })}>
               Manage Plan
             </Link>
             <form action={signOutAction}>
@@ -97,9 +97,6 @@ export default async function AccountPage() {
 
           <p className="mt-4 text-[13px] text-muted">Purchased tokens never expire.</p>
 
-          <Link href="/tokens" className={buttonClass({ size: "sm", className: "mt-4" })}>
-            Buy Tokens
-          </Link>
         </section>
       </div>
 
@@ -135,9 +132,6 @@ export default async function AccountPage() {
           </table>
         </div>
 
-        <p className="mt-3 text-[12.5px] text-muted">
-          Invoices will appear here once a payment provider is connected.
-        </p>
       </section>
     </Container>
   );

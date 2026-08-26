@@ -19,13 +19,13 @@ export function TokenTopUp() {
             </p>
           </div>
           <a
-            href="/signup?next=%2Ftokens"
+            href="/pricing"
             className={buttonClass({
               className:
                 "bg-white text-accent hover:bg-accent-tint max-mob:w-full",
             })}
           >
-            View Token Packs
+            Compare Plans
           </a>
         </div>
       </Container>

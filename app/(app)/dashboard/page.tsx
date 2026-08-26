@@ -6,7 +6,6 @@ import { Download } from "lucide-react";
 import { Greeting } from "@/components/app/Greeting";
 import { UploadCard } from "@/components/app/UploadCard";
 import { Container } from "@/components/site/Section";
-import { buttonClass } from "@/components/ui/Button";
 import { getCurrentUser, tokenBalance } from "@/lib/auth";
 import { recentFiles } from "@/lib/recent-files";
 import { costLabel, getTool } from "@/lib/tools";
@@ -42,9 +41,6 @@ export default async function DashboardPage() {
             <b className="font-medium text-ink">{formatCount(balance)} tokens</b> available
           </p>
         </div>
-        <Link href="/tokens" className={buttonClass({ variant: "ghost", size: "sm" })}>
-          Buy Tokens
-        </Link>
       </div>
 
       <div className="mt-8">
@@ -59,7 +55,7 @@ export default async function DashboardPage() {
             return (
               <Link
                 key={tool.slug}
-                href="/dashboard/editor"
+                href={`/dashboard/editor?tool=${tool.slug}`}
                 className="rounded-card border border-border bg-white p-5 transition-colors duration-150 hover:border-border-strong"
               >
                 <Icon width={19} height={19} strokeWidth={1.5} className="text-ink" />
@@ -124,9 +120,6 @@ export default async function DashboardPage() {
           </table>
         </div>
 
-        <p className="mt-3 text-[12.5px] text-muted">
-          Sample history. Files are processed in your browser and are not stored on our servers.
-        </p>
       </section>
     </Container>
   );

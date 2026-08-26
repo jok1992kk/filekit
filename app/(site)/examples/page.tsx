@@ -10,7 +10,7 @@ import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "Examples",
-  description: `Real product photos, before and after ${brand.name} prepares them for Amazon, Etsy and Shopify.`,
+  description: `Product-photo workflows before and after ${brand.name} prepares them for Amazon, Etsy and Shopify.`,
 };
 
 const targets = [
@@ -21,25 +21,25 @@ const targets = [
 
 const products = [
   {
-    name: "Leather wallet",
-    category: "Accessories",
-    originalSrc: "/generated/wallet-original.webp",
-    readySrc: "/generated/wallet-ready.webp",
-    alt: "Leather wallet product photo",
+    name: "ROVE trail cap",
+    category: "Outdoor merch",
+    originalSrc: "/brand/rove-cap-original.webp",
+    readySrc: "/brand/rove-cap-cutout.webp",
+    alt: "ROVE trail cap product photo",
   },
   {
-    name: "Folded sweaters",
-    category: "Clothing",
-    originalSrc: "/generated/sweaters-original.webp",
-    readySrc: "/generated/sweaters-original.webp",
-    alt: "Folded sweaters product photo",
+    name: "MELA peach serum",
+    category: "Skincare",
+    originalSrc: "/brand/mela-serum-original.webp",
+    readySrc: "/brand/mela-serum-ready.webp",
+    alt: "MELA serum product photo",
   },
   {
-    name: "Cosmetic tube",
-    category: "Cosmetics",
-    originalSrc: "/generated/cosmetic-original.webp",
-    readySrc: "/generated/cosmetic-ready.webp",
-    alt: "Cosmetic tube product photo",
+    name: "NOON coffee set",
+    category: "Food & drink",
+    originalSrc: "/brand/noon-coffee-original.webp",
+    readySrc: "/brand/noon-coffee-ready.webp",
+    alt: "NOON coffee product photo",
   },
   {
     name: "Gold ring",
@@ -72,7 +72,7 @@ export default function ExamplesPage() {
           <SectionHead
             eyebrow="Examples"
             title="One photo, every storefront."
-            lead="Six real products, prepared for Amazon, Etsy and Shopify from the same original."
+            lead="Six product workflows, prepared for Amazon, Etsy and Shopify from the same original."
           />
         </Container>
       </Section>
@@ -147,12 +147,12 @@ export default function ExamplesPage() {
           </div>
 
           <div className="mt-14 flex flex-col items-start gap-4 rounded-card border border-border bg-surface p-8 max-mob:p-6">
-            <h3 className="text-[19px]">Try it with your own photos.</h3>
+            <h3 className="text-[19px]">Prepare your own product photos.</h3>
             <p className="max-w-[480px] text-[14.5px] leading-[1.55]">
-              No account needed to look around — sample photos are already loaded in the editor.
+              Choose a marketplace, apply the right workflow and export every image in the format you need.
             </p>
             <Link href="/editor" className={buttonClass()}>
-              Try the Editor
+              Open the Editor
             </Link>
           </div>
         </Container>

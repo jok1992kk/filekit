@@ -12,28 +12,28 @@ const SLIDE_MS = 3200;
  * tour of the product rather than one repeated example. */
 const slides = [
   {
-    src: "/generated/wallet-ready.webp",
-    alt: "Leather wallet, resized for Amazon",
-    marketplace: "Amazon",
-    size: "2,000 × 2,000",
+    src: "/brand/rove-merch.webp",
+    alt: "ROVE outdoor brand merchandise collection",
+    marketplace: "ROVE merch drop",
+    size: "6 files · batch ready",
   },
   {
-    src: "/generated/cosmetic-ready.webp",
-    alt: "Cosmetic tube, resized for Etsy",
-    marketplace: "Etsy",
-    size: "2,000 × 1,600",
+    src: "/brand/mela-serum-original.webp",
+    alt: "MELA skincare campaign photograph",
+    marketplace: "MELA campaign",
+    size: "Scene → listing",
   },
   {
-    src: "/generated/ring-ready.webp",
-    alt: "Gold ring, resized for Shopify",
-    marketplace: "Shopify",
-    size: "2,048 × 2,048",
+    src: "/brand/noon-coffee-ready.webp",
+    alt: "NOON coffee marketplace packshot",
+    marketplace: "NOON marketplace pack",
+    size: "9 storefront exports",
   },
   {
-    src: "/generated/bowls-ready.webp",
-    alt: "Wooden bowls, resized for eBay",
-    marketplace: "eBay",
-    size: "1,600 × 1,600",
+    src: "/brand/rove-cap-cutout.webp",
+    alt: "ROVE cap with the background removed",
+    marketplace: "Clean product cutout",
+    size: "Transparent PNG",
   },
 ];
 
@@ -100,11 +100,11 @@ export function HeroShowcase() {
         ))}
       </div>
 
-      <div className="relative aspect-square w-full bg-surface">
+      <div className="relative aspect-square w-full bg-[#f3f6f2]">
         {slides.map((item, i) => (
           <div
             key={item.src}
-            className="absolute inset-0 flex items-center justify-center p-[14%] transition-opacity duration-500 ease-out"
+            className="absolute inset-0 flex items-center justify-center p-[8%] transition-opacity duration-500 ease-out"
             style={{ opacity: i === index ? 1 : 0 }}
           >
             <div className="relative h-full w-full">
@@ -114,7 +114,7 @@ export function HeroShowcase() {
                 fill
                 sizes="(min-width: 1081px) 460px, 90vw"
                 priority={i === 0}
-                className="object-contain"
+                className="rounded-[8px] object-contain"
               />
             </div>
           </div>
