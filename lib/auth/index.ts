@@ -1,15 +1,17 @@
 import { cookies } from "next/headers";
 
 import { SESSION_COOKIE } from "@/lib/auth/cookie";
-import { localAuth } from "@/lib/auth/local";
+import { supabaseAuth } from "@/lib/auth/supabase";
 import type { AuthProvider, PublicUser } from "@/lib/auth/types";
 
 /**
- * The active auth provider. Today it is the local, file-backed one; when a
- * Supabase project exists this becomes `supabaseAuth` and nothing else in the
- * app changes — every page and action talks to the `AuthProvider` interface.
+ * The active auth provider. Every page and action talks to the
+ * `AuthProvider` interface, never to Supabase directly — see
+ * lib/auth/supabase.ts. `lib/auth/local.ts` is the pre-migration,
+ * file-backed implementation, kept only for local dev without a Supabase
+ * project.
  */
-export const auth: AuthProvider = localAuth;
+export const auth: AuthProvider = supabaseAuth;
 
 export { SESSION_COOKIE };
 

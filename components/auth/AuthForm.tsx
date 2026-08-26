@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { AlertCircle } from "lucide-react";
@@ -80,9 +81,16 @@ export function AuthForm({
       </div>
 
       <div>
-        <label className={labelClass} htmlFor="password">
-          Password
-        </label>
+        <div className="flex items-center justify-between">
+          <label className={labelClass} htmlFor="password">
+            Password
+          </label>
+          {!isSignUp ? (
+            <Link href="/forgot-password" className="mb-1.5 text-[13px] text-muted hover:text-accent">
+              Forgot password?
+            </Link>
+          ) : null}
+        </div>
         <input
           id="password"
           name="password"

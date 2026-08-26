@@ -5,8 +5,12 @@ import { redirect } from "next/navigation";
 import {
   auth,
   clearSessionCookie,
+  getCurrentUser,
   setSessionCookie,
 } from "@/lib/auth";
+import { brand } from "@/lib/brand";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { createAuthClient } from "@/lib/supabase/auth-client";
 
 /**
  * React resets a form once its action resolves, so a rejected submission
@@ -78,4 +82,48 @@ export async function signOutAction(): Promise<void> {
   const token = await clearSessionCookie();
   if (token) await auth.signOut(token);
   redirect("/");
+}
+
+export type ForgotPasswordState = { sent?: boolean; error?: string };
+
+export async function forgotPasswordAction(
+  _prevState: ForgotPasswordState,
+  formData: FormData,
+): Promise<ForgotPasswordState> {
+  const email = String(formData.get("email") ?? "").trim();
+  if (!EMAIL_PATTERN.test(email)) {
+    return { error: "Please enter a valid email address." };
+  }
+
+  const client = createAuthClient();
+  await client.auth.resetPasswordForEmail(email, {
+    redirectTo: `${brand.url}/auth/callback?type=recovery`,
+  });
+
+  // Same response whether or not the email is registered — see signInAction.
+  return { sent: true };
+}
+
+export type ResetPasswordState = { error?: string };
+
+export async function resetPasswordAction(
+  _prevState: ResetPasswordState,
+  formData: FormData,
+): Promise<ResetPasswordState> {
+  const password = String(formData.get("password") ?? "");
+  if (password.length < MIN_PASSWORD) {
+    return { error: `Password must be at least ${MIN_PASSWORD} characters.` };
+  }
+
+  // Reaching this page at all only happens via a same-request redirect from
+  // /auth/callback?type=recovery, which already set a fresh session cookie —
+  // so the signed-in user here is exactly the one who clicked the email link.
+  const user = await getCurrentUser();
+  if (!user) return { error: "This reset link has expired. Request a new one." };
+
+  const admin = createAdminClient();
+  const { error } = await admin.auth.admin.updateUserById(user.id, { password });
+  if (error) return { error: "Could not update your password. Try again." };
+
+  redirect("/dashboard");
 }
