@@ -52,7 +52,7 @@ const sections = [
   },
   {
     heading: "11. Contact",
-    body: "Privacy questions and data requests can be sent to privacy@waresnap.app.",
+    body: "Privacy questions and data requests can be sent to privacy@waresnap.online.",
   },
 ];
 

@@ -52,7 +52,7 @@ const sections = [
   },
   {
     heading: "11. Contact",
-    body: "Questions about these terms can be sent to support@waresnap.app.",
+    body: "Questions about these terms can be sent to support@waresnap.online.",
   },
 ];
 

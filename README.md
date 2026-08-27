@@ -70,7 +70,7 @@ npx vercel --prod # promotes to production
 
 | Variable | Required | Notes |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | Recommended | Absolute origin, no trailing slash (e.g. `https://waresnap.app`). Falls back to `https://waresnap.app` if unset. |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | Absolute origin, no trailing slash (e.g. `https://waresnap.online`). Falls back to `https://waresnap.online` if unset. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Yes | From Project Settings → API. |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Public by design (`NEXT_PUBLIC_*`) — the RLS policies and the `spend_tokens` RPC's revoked execute grant are what keep it safe to ship to the client, not secrecy. |
 | `SUPABASE_SERVICE_ROLE_KEY` | Yes | Server-only — bypasses RLS. Never expose to the client. |

@@ -125,5 +125,15 @@ export async function resetPasswordAction(
   const { error } = await admin.auth.admin.updateUserById(user.id, { password });
   if (error) return { error: "Could not update your password. Try again." };
 
+  // Changing the password revokes the session that authenticated this very
+  // request, so the cookie above is already dead — sign back in with the new
+  // password rather than redirecting to /dashboard on a session that's about
+  // to fail its next check and bounce back to /signin.
+  const client = createAuthClient();
+  const signIn = await client.auth.signInWithPassword({ email: user.email, password });
+  if (signIn.data.session) {
+    await setSessionCookie(signIn.data.session.access_token);
+  }
+
   redirect("/dashboard");
 }

@@ -4,9 +4,8 @@
  */
 export const brand = {
   name: "WareSnap",
-  // The public domain still needs to be purchased and trademark-cleared.
-  domain: "waresnap.app",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://waresnap.app",
+  domain: "waresnap.online",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://waresnap.online",
   tagline: "Every product photo, ready to list.",
   description:
     "Resize, optimize and prepare product photos for Amazon, Etsy, Shopify and eBay.",
