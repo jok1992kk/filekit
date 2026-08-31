@@ -39,6 +39,12 @@ export function Footer() {
           <p className="mt-3.5 max-w-[280px] text-[14px] leading-[1.55] text-muted">
             {brand.tagline}
           </p>
+          <a
+            href={`mailto:${brand.contactEmail}`}
+            className="mt-3.5 inline-block text-[14px] text-body hover:text-accent"
+          >
+            {brand.contactEmail}
+          </a>
         </div>
 
         {columns.map((column) => (

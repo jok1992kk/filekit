@@ -9,6 +9,7 @@ export const brand = {
   tagline: "Every product photo, ready to list.",
   description:
     "Resize, optimize and prepare product photos for Amazon, Etsy, Shopify and eBay.",
+  contactEmail: "waresnap.online@outlook.com",
 } as const;
 
 /** Header navigation, in the order the approved design lists it. Tools,
