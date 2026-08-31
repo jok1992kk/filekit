@@ -6,13 +6,15 @@ import { ImagePlus, X } from "lucide-react";
 
 import { buttonClass } from "@/components/ui/Button";
 import { marketplaces } from "@/lib/brand";
+import { stageFiles } from "@/lib/processing/handoff";
 import { cn } from "@/lib/utils";
 
 const ACCEPTED = ["image/jpeg", "image/png", "image/webp", "image/heic"];
 
 /**
- * The dashboard's main card (SPEC.md §9). Files never leave the browser —
- * v1 does no real processing, so there is nothing to upload them for.
+ * The dashboard's main card (SPEC.md §9). Files never leave the browser: the
+ * editor processes them on the device, so Continue hands the actual `File`
+ * objects over in memory rather than uploading anything.
  */
 export function UploadCard() {
   const router = useRouter();
@@ -119,7 +121,10 @@ export function UploadCard() {
       <button
         type="button"
         disabled={files.length === 0}
-        onClick={() => router.push(`/dashboard/editor?marketplace=${marketplace}`)}
+        onClick={() => {
+          stageFiles(files, marketplace);
+          router.push(`/dashboard/editor?marketplace=${marketplace}`);
+        }}
         className={buttonClass({ className: "mt-5 max-mob:w-full disabled:cursor-not-allowed disabled:opacity-45" })}
       >
         Continue
