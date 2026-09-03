@@ -10,6 +10,7 @@ import { formatCount } from "@/lib/utils";
 const appNav = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/dashboard/editor", label: "Editor" },
+  { href: "/tokens", label: "Tokens" },
 ] as const;
 
 /** The signed-in header (SPEC.md §9): wordmark, app nav, balance pill, avatar. */
@@ -30,10 +31,13 @@ export function AppHeader({ user }: { user: PublicUser }) {
         </nav>
 
         <div className="ml-auto flex items-center gap-3">
-          <span className="flex items-center gap-1 rounded-full border border-border bg-white px-2.5 py-[5px] text-[12.5px] text-muted">
+          <Link
+            href="/tokens"
+            className="flex items-center gap-1 rounded-full border border-border bg-white px-2.5 py-[5px] text-[12.5px] text-muted transition-colors hover:border-border-strong"
+          >
             <span className="font-medium text-ink">{formatCount(balance)}</span>
             {balance === 1 ? "token" : "tokens"}
-          </span>
+          </Link>
           <AccountMenu fullName={user.fullName} email={user.email} />
         </div>
       </Container>
