@@ -14,7 +14,7 @@ export type TokenPack = {
 export const tokenPacks: TokenPack[] = [
   { id: "p100", tokens: 100, price: 4.99 },
   { id: "p250", tokens: 250, price: 9.99 },
-  { id: "p500", tokens: 500, price: 17.99 },
+  { id: "p500", tokens: 500, price: 19.99 },
   { id: "p1000", tokens: 1000, price: 33.99, badge: "Most Popular" },
   { id: "p2500", tokens: 2500, price: 79.99, badge: "Best value" },
   { id: "p5000", tokens: 5000, price: 149.99 },

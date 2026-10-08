@@ -98,7 +98,7 @@ marquee и Marketplace Pack, не перечисляются поимённо в
 |---|---|---|---|
 | 100 | $4.99 | 0.050 | |
 | 250 | $9.99 | 0.040 | |
-| 500 | $17.99 | 0.036 | |
+| 500 | $19.99 | 0.040 | |
 | 1,000 | $33.99 | 0.034 | **Most Popular** |
 | 2,500 | $79.99 | 0.032 | Best value |
 | 5,000 | $149.99 | 0.030 | |
@@ -112,7 +112,7 @@ marquee и Marketplace Pack, не перечисляются поимённо в
 
 Тоггл Monthly / Yearly. При Yearly показывать `2 months free` и месячный эквивалент.
 
-**Starter** — $5.99/mo · $45.99/yr · CTA `Start with Starter`
+**Starter** — $5.99/mo · $49.99/yr · CTA `Start with Starter`
 - 100 monthly tokens
 - All 10 tools
 - Up to 20 images per batch

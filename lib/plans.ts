@@ -23,7 +23,7 @@ export const plans: Plan[] = [
   {
     id: "starter",
     name: "Starter",
-    price: { monthly: 5.99, yearly: 45.99 },
+    price: { monthly: 5.99, yearly: 49.99 },
     monthlyTokens: 100,
     cta: "Start with Starter",
     features: [
