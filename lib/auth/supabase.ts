@@ -41,12 +41,32 @@ function toPublic(row: ProfileRow): PublicUser {
  * signUp()'s HTTP response reaches this server. */
 async function fetchProfile(userId: string): Promise<ProfileRow | null> {
   const admin = createAdminClient();
-  const { data } = await admin
+  const { data, error } = await admin
     .from("profiles")
     .select("*")
     .eq("id", userId)
     .maybeSingle();
+  if (error) {
+    // A database/configuration outage is not an invalid password or a missing
+    // account. Keep it distinct, and never put user data in the server log.
+    console.error("WareSnap profile lookup failed", { code: error.code });
+    throw new Error("Profile service unavailable");
+  }
   return data;
+}
+
+const AUTH_UNAVAILABLE = "Authentication is temporarily unavailable. Please try again in a few minutes.";
+const PROFILE_UNAVAILABLE = "Your account could not be loaded. Please try again in a few minutes.";
+
+function reportAuthFailure(operation: string, error: unknown): void {
+  const details = error as { name?: string; code?: string; status?: number } | null;
+  // Log only diagnostic identifiers: error messages can contain email addresses,
+  // request URLs or other account data. Never log passwords, sessions or keys.
+  console.error(`WareSnap ${operation} failed`, {
+    name: details?.name,
+    code: details?.code,
+    status: details?.status,
+  });
 }
 
 function addMonths(from: Date, months: number): string {
@@ -57,43 +77,80 @@ function addMonths(from: Date, months: number): string {
 
 export const supabaseAuth: AuthProvider = {
   async signUp({ email, password, fullName }): Promise<AuthResult> {
-    const client = createAuthClient();
-    const { data, error } = await client.auth.signUp({
-      email,
-      password,
-      options: { data: { full_name: fullName.trim() } },
-    });
+    try {
+      const client = createAuthClient();
+      const { data, error } = await client.auth.signUp({
+        email,
+        password,
+        options: { data: { full_name: fullName.trim() } },
+      });
 
-    if (error) return { ok: false, error: error.message };
-    if (!data.session || !data.user) {
-      // "Confirm email" is on for this project — see README for how to turn
-      // it off until Resend SMTP is wired up in the Supabase dashboard.
-      return {
-        ok: false,
-        error: "Check your inbox to confirm your account, then sign in.",
-      };
+      if (error) {
+        reportAuthFailure("sign-up", error);
+        const serviceFailure = !error.status || error.status >= 500 ||
+          error.status === 401 || error.status === 403;
+        return { ok: false, error: serviceFailure ? AUTH_UNAVAILABLE : error.message };
+      }
+      if (!data.session || !data.user) {
+        // "Confirm email" is on for this project — see README for how to turn
+        // it off until Resend SMTP is wired up in the Supabase dashboard.
+        return {
+          ok: false,
+          error: "Check your inbox to confirm your account, then sign in.",
+        };
+      }
+
+      const profile = await fetchProfile(data.user.id);
+      if (!profile) {
+        return { ok: false, error: "Account created, but the profile is missing. Try signing in." };
+      }
+
+      return { ok: true, user: toPublic(profile), token: data.session.access_token };
+    } catch (error) {
+      reportAuthFailure("sign-up", error);
+      return { ok: false, error: AUTH_UNAVAILABLE };
     }
-
-    const profile = await fetchProfile(data.user.id);
-    if (!profile) {
-      return { ok: false, error: "Account created, but the profile is missing. Try signing in." };
-    }
-
-    return { ok: true, user: toPublic(profile), token: data.session.access_token };
   },
 
   async signIn({ email, password }): Promise<AuthResult> {
-    const client = createAuthClient();
-    const { data, error } = await client.auth.signInWithPassword({ email, password });
+    try {
+      const client = createAuthClient();
+      const { data, error } = await client.auth.signInWithPassword({ email, password });
 
-    // Same message either way — never reveal whether the email is registered.
-    const rejection = { ok: false, error: "Email or password is incorrect." } as const;
-    if (error || !data.session || !data.user) return rejection;
+      // Same message either way — never reveal whether the email is registered.
+      const rejection = { ok: false, error: "Email or password is incorrect." } as const;
+      if (error) {
+        if (error.code === "invalid_credentials") return rejection;
+        if (error.code === "email_not_confirmed") {
+          return { ok: false, error: "Confirm your email address before signing in. Check your inbox for the confirmation link." };
+        }
+        if (error.status === 429) {
+          return { ok: false, error: "Too many sign-in attempts. Please wait a few minutes and try again." };
+        }
+        reportAuthFailure("sign-in", error);
+        return { ok: false, error: AUTH_UNAVAILABLE };
+      }
+      if (!data.session || !data.user) {
+        reportAuthFailure("sign-in", { code: "missing_session" });
+        return { ok: false, error: AUTH_UNAVAILABLE };
+      }
 
-    const profile = await fetchProfile(data.user.id);
-    if (!profile) return rejection;
+      let profile: ProfileRow | null;
+      try {
+        profile = await fetchProfile(data.user.id);
+      } catch {
+        return { ok: false, error: PROFILE_UNAVAILABLE };
+      }
+      if (!profile) {
+        reportAuthFailure("sign-in", { code: "missing_profile" });
+        return { ok: false, error: PROFILE_UNAVAILABLE };
+      }
 
-    return { ok: true, user: toPublic(profile), token: data.session.access_token };
+      return { ok: true, user: toPublic(profile), token: data.session.access_token };
+    } catch (error) {
+      reportAuthFailure("sign-in", error);
+      return { ok: false, error: AUTH_UNAVAILABLE };
+    }
   },
 
   async signOut(token: string): Promise<void> {
